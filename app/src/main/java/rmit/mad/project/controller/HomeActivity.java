@@ -1,16 +1,19 @@
-package au.com.rmit.mad.assigment;
+package rmit.mad.project.controller;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTabHost;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TabHost;
 
-public class TrackablesActivity extends AppCompatActivity {
+import rmit.mad.project.R;
 
+public class HomeActivity extends AppCompatActivity {
+
+    private FragmentTabHost tabHost;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,14 +21,23 @@ public class TrackablesActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
+        tabHost = (FragmentTabHost)findViewById(android.R.id.tabhost);
+        tabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
+
+
+        String tabOneName = getString(R.string.tabs_option1);
+        String tabTwoName = getString(R.string.tabs_option2);
+
+        TabHost.TabSpec tab = tabHost.newTabSpec(tabOneName);
+        tab.setIndicator(tabOneName);
+
+        tabHost.addTab(tab, TrackableListActivity.class,null);
+
+        tab = tabHost.newTabSpec(tabTwoName);
+        tab.setIndicator(tabTwoName);
+
+        tabHost.addTab(tab, TrackableListActivity.class,null);
     }
 
     @Override

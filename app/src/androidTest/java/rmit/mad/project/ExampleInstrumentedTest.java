@@ -1,4 +1,4 @@
-package au.com.rmit.mad.assigment;
+package au.com.rmit.mad.project;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
