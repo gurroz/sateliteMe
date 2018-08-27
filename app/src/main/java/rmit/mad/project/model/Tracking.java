@@ -13,17 +13,6 @@ public abstract class Tracking {
     private String actualLocation;
     private String meetLocation;
 
-    public Tracking(String id, String idTrackable, String title, Date targetStartTime, Date targetFinishTime, Date meetTime, String actualLocation, String meetLocation) {
-        this.id = id;
-        this.idTrackable = idTrackable;
-        this.title = title;
-        this.targetStartTime = targetStartTime;
-        this.targetFinishTime = targetFinishTime;
-        this.meetTime = meetTime;
-        this.actualLocation = actualLocation;
-        this.meetLocation = meetLocation;
-    }
-
     public Tracking() { }
 
     public String getId() {

@@ -9,10 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import rmit.mad.project.R;
-import rmit.mad.project.model.TrackableAdapter;
-import rmit.mad.project.model.TrackableService;
+import rmit.mad.project.model.TrackingAdapter;
+import rmit.mad.project.model.TrackingDAO;
 
-public class TrackableListActivity extends Fragment {
+public class TrackingListActivity extends Fragment {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -26,20 +26,16 @@ public class TrackableListActivity extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.content_trackables, container, false);
+        View view = inflater.inflate(R.layout.content_trackings, container, false);
 
-        mRecyclerView = view.findViewById(R.id.trackableListView);
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView = view.findViewById(R.id.trackingListView);
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new TrackableAdapter(TrackableService.getInstance().getTrackables());
+        mAdapter = new TrackingAdapter(TrackingDAO.getInstance().getTracking());
         mRecyclerView.setAdapter(mAdapter);
 
         return view;

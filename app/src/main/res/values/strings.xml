@@ -3,4 +3,7 @@
     <string name="action_settings">Settings</string>
     <string name="tabs_option1">Trackables</string>
     <string name="tabs_option2">Tracking Events</string>
+    <string name="detail_tracking_title">Tracking Events</string>
+    <string name="title_activity_trackable_detail">TrackableDetailActivity</string>
+    <string name="title_activity_tracking_detail">TrackingDetailActivity</string>
 </resources>

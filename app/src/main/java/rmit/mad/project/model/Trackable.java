@@ -10,6 +10,8 @@ public abstract class Trackable {
     private String category;
     private String media;
 
+    public Trackable() {}
+
     public Trackable(String id, String name, String description, String url, String category, String media) {
         this.id = id;
         this.name = name;
