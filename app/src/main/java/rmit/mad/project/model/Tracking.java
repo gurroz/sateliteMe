@@ -79,6 +79,7 @@ public abstract class Tracking {
         this.meetLocation = meetLocation;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

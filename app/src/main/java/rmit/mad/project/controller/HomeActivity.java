@@ -34,8 +34,26 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trackables);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        tabHost = findViewById(android.R.id.tabhost);
+        tabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
+
+
+        String tabOneName = getString(R.string.tabs_option1);
+        String tabTwoName = getString(R.string.tabs_option2);
+
+        TabHost.TabSpec tab = tabHost.newTabSpec(tabOneName);
+        tab.setIndicator(tabOneName);
+
+        tabHost.addTab(tab, TrackableListActivity.class,null);
+
+        tab = tabHost.newTabSpec(tabTwoName);
+        tab.setIndicator(tabTwoName);
+
+        tabHost.addTab(tab, TrackingListActivity.class,null);
 
         Resources res = getResources();
         InputStream stream = res.openRawResource(R.raw.food_truck_data);
@@ -75,25 +93,6 @@ public class HomeActivity extends AppCompatActivity {
             e.printStackTrace();
             Log.d("ASSGIMENT", "Error creating date", e);
         }
-
-
-        tabHost = (FragmentTabHost)findViewById(android.R.id.tabhost);
-        tabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
-
-
-        String tabOneName = getString(R.string.tabs_option1);
-        String tabTwoName = getString(R.string.tabs_option2);
-
-        TabHost.TabSpec tab = tabHost.newTabSpec(tabOneName);
-        tab.setIndicator(tabOneName);
-
-        tabHost.addTab(tab, TrackableListActivity.class,null);
-
-        tab = tabHost.newTabSpec(tabTwoName);
-        tab.setIndicator(tabTwoName);
-
-        tabHost.addTab(tab, TrackingListActivity.class,null);
-
     }
 
     @Override

@@ -89,5 +89,17 @@
             android:layout_height="wrap_content"
             android:inputType="textPersonName"  />
 
+        <Button
+            android:id="@+id/saveTrackingBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/save" />
+
+        <Button
+            android:id="@+id/deleteTrackingBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/delete" />
+
     </LinearLayout>
 </LinearLayout>

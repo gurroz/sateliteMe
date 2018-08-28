@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -69,9 +68,16 @@ public class TrackableAdapter extends RecyclerView.Adapter<TrackableAdapter.View
         return mDataset.size();
     }
 
-    public void onClickReal(final View view, final Trackable trackable) {
+    public void updateData(List<Trackable> myDataset) {
+        mDataset = myDataset;
+        notifyDataSetChanged();
+    }
+
+    private void onClickReal(final View view, final Trackable trackable) {
         Intent intent = new Intent(view.getContext(), TrackableDetailActivity.class);
         intent.putExtra("TRACKABLE_ID", trackable.getId());
         view.getContext().startActivity(intent);
     }
+
+
 }

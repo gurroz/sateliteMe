@@ -25,7 +25,7 @@ public class TrackableService {
             String[] properties = line.split(",");
 
             Trackable truk = new TrackableImp();
-            truk.setId(properties[0]);
+            truk.setId(Integer.valueOf(properties[0]));
             truk.setName(properties[1].replaceAll("\"", ""));
             truk.setDescription(properties[2].replaceAll("\"", ""));
             truk.setUrl(properties[3].replaceAll("\"", ""));
@@ -41,6 +41,28 @@ public class TrackableService {
 
     public List<Trackable> getTrackables() {
         return TrackableDAO.getInstance().getTrackables();
+    }
+
+    public List<Trackable> getTrackablesFilteredByCategory(List<String> categories) {
+        List<Trackable> filteredTrackables = new ArrayList<>();
+        List<Trackable> allTrackables = TrackableDAO.getInstance().getTrackables();
+        for(Trackable trackable : allTrackables) {
+            if(categories.contains(trackable.getCategory())) {
+                filteredTrackables.add(trackable);
+            }
+        }
+        return filteredTrackables;
+    }
+
+    public String[] getTrackablesCategories() {
+        List<String> categories = new ArrayList<>();
+        List<Trackable> allTrackables = TrackableDAO.getInstance().getTrackables();
+        for(Trackable trackable : allTrackables) {
+            if(!categories.contains(trackable.getCategory())) {
+                categories.add(trackable.getCategory());
+            }
+        }
+        return (String[])categories.toArray();
     }
 
     private static class LazyHolder {

@@ -21,10 +21,11 @@
         </activity>
         <activity
             android:name=".controller.TrackableDetailActivity"
-            android:label="@string/title_activity_trackable_detail"></activity>
+            android:label="@string/title_activity_trackable_detail"/>
+
         <activity
             android:name=".controller.TrackingDetailActivity"
-            android:label="@string/title_activity_trackable_detail"></activity>
+            android:label="@string/title_activity_trackable_detail"/>
     </application>
 
 </manifest>

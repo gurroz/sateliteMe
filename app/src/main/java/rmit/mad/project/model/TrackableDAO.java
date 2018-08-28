@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class TrackableDAO {
 
-    private static Map<String, Trackable> trackableList = new HashMap<String, Trackable>();
+    private static Map<Integer, Trackable> trackableList = new HashMap<Integer, Trackable>();
     private static TrackableDAO instance = new TrackableDAO();
     private TrackableDAO() { }
 
@@ -19,7 +19,7 @@ public class TrackableDAO {
         return new ArrayList<Trackable>(trackableList.values());
     }
 
-    public Trackable getTrackableById(String id) {
+    public Trackable getTrackableById(int id) {
         return trackableList.get(id);
     }
 

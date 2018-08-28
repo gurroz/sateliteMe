@@ -95,9 +95,12 @@
                 android:id="@+id/addTracking"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:text="@string/add_tracking" />
 
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/routeInfoListView"
+                android:scrollbars="vertical"
+                android:overScrollMode="ifContentScrolls"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
