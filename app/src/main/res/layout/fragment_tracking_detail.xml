@@ -19,14 +19,22 @@
         android:paddingRight="16dp"
         android:paddingTop="16dp">
 
+        <TextView
+            android:id="@+id/trackable"
+            android:textSize="17sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold" />
+
         <EditText
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="viewStart"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:ems="10"
+            android:text="Title"
             android:inputType="textPersonName"/>
 
         <TextView

@@ -22,7 +22,7 @@ public class TrackableService {
         String line = reader.readLine();
 
         while (line != null) {
-            String[] properties = line.split(",");
+            String[] properties = line.split(",\"");
 
             Trackable truk = new TrackableImp();
             truk.setId(Integer.valueOf(properties[0]));
@@ -62,7 +62,7 @@ public class TrackableService {
                 categories.add(trackable.getCategory());
             }
         }
-        return (String[])categories.toArray();
+        return categories.toArray(new String[categories.size()]);
     }
 
     private static class LazyHolder {

@@ -30,7 +30,7 @@ public class TrackablesFilterFragment extends DialogFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            clickListener = (TrackablesFilterListener) context;
+            clickListener = (TrackablesFilterListener) getTargetFragment();
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement TrackablesFilterListener");
         }
@@ -39,7 +39,7 @@ public class TrackablesFilterFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         filteringSelectedItems = new ArrayList();
-        filteringItems = savedInstanceState.getStringArray("categories");
+        filteringItems =  getArguments().getStringArray("categories");
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 

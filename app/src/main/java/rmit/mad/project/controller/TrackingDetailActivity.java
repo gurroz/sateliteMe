@@ -5,17 +5,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import rmit.mad.project.R;
+import rmit.mad.project.model.Trackable;
+import rmit.mad.project.model.TrackableDAO;
 import rmit.mad.project.model.Tracking;
 import rmit.mad.project.model.TrackingDAO;
 import rmit.mad.project.model.TrackingImp;
 
 public class TrackingDetailActivity extends AppCompatActivity {
 
+    private TextView trackableTextView;
     private EditText titleView;
     private EditText startView;
     private EditText endView;
@@ -24,14 +28,20 @@ public class TrackingDetailActivity extends AppCompatActivity {
     private EditText meetingTimeView;
     private Button saveTrackingBtn;
     private Button deleteTrackingBtn;
+    private String trackableId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_tracking_detail);
 
-        String trackingId = getIntent().getStringExtra("TRACKING_ID");
+       final String trackingId = getIntent().getStringExtra("TRACKING_ID");
         Tracking tracking = TrackingDAO.getInstance().getTracking(trackingId);
+        trackableId = getIntent().getStringExtra("TRACKABLE_ID");
+        Trackable trackable = TrackableDAO.getInstance().getTrackableById(Integer.valueOf(trackableId));
+
+        trackableTextView = findViewById(R.id.trackable);
+        trackableTextView.setText(getString(R.string.tracking_trackable_title, trackable.getName()));
 
         titleView = findViewById(R.id.title);
         startView = findViewById(R.id.start);
@@ -59,11 +69,17 @@ public class TrackingDetailActivity extends AppCompatActivity {
             }
         });
 
+        deleteTrackingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteOnClick(v, trackingId);
+            }
+        });
+
     }
 
     private Tracking getTrackingData() throws ParseException {
 
-        String trackableId = getIntent().getStringExtra("TRACKABLE_ID");
 
         String title = titleView.getText().toString();
         String startDate = startView.getText().toString();
@@ -92,4 +108,7 @@ public class TrackingDetailActivity extends AppCompatActivity {
         }
     }
 
+    private void deleteOnClick(final View view, final String trackingId) {
+        TrackingDAO.getInstance().deleteTrackingById(trackingId);
+    }
 }
