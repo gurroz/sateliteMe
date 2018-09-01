@@ -1,11 +1,21 @@
 package rmit.mad.project.model;
 
+import android.util.Log;
+
+import java.math.BigInteger;
+import java.nio.charset.Charset;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.Objects;
 
+import rmit.mad.project.controller.TrackingCreateActivity;
+
 public abstract class Tracking {
+    private static final String TAG = Tracking.class.getName();
+
     private String id;
-    private String idTrackable;
+    private int idTrackable;
     private String title;
     private Date targetStartTime;
     private Date targetFinishTime;
@@ -19,15 +29,15 @@ public abstract class Tracking {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId() {
+        id = md5(idTrackable + targetStartTime.toString() + (Math.random() * 1000));
     }
 
-    public String getIdTrackable() {
+    public int getIdTrackable() {
         return idTrackable;
     }
 
-    public void setIdTrackable(String idTrackable) {
+    public void setIdTrackable(int idTrackable) {
         this.idTrackable = idTrackable;
     }
 
@@ -80,6 +90,10 @@ public abstract class Tracking {
     }
 
 
+    public boolean validateDates() {
+        return !(meetTime.before(targetStartTime) || meetTime.after(targetFinishTime));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -106,5 +120,20 @@ public abstract class Tracking {
         sb.append(", meetLocation='").append(meetLocation).append('\'');
         sb.append('}');
         return sb.toString();
+    }
+
+    public static String md5(String s) {
+        MessageDigest digest;
+        String hash = "";
+        try {
+            digest = MessageDigest.getInstance("MD5");
+            digest.update(s.getBytes(Charset.forName("US-ASCII")),0,s.length());
+            byte[] magnitude = digest.digest();
+            BigInteger bi = new BigInteger(1, magnitude);
+            hash = String.format("%0" + (magnitude.length << 1) + "x", bi);
+        } catch (NoSuchAlgorithmException e) {
+            Log.e(TAG, "Error generating id: {}", e);
+        }
+        return hash;
     }
 }

@@ -32,7 +32,7 @@ public class TrackableListActivity extends Fragment implements TrackablesFilterF
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.content_trackables, container, false);
+        View view = inflater.inflate(R.layout.trackables_list, container, false);
         filterBtn = view.findViewById(R.id.filterBtn);
         filterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,10 +73,15 @@ public class TrackableListActivity extends Fragment implements TrackablesFilterF
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog, List<String> filteringSelectedItems) {
+        List<Trackable> filteredTrackables;
         if(filteringSelectedItems != null && filteringSelectedItems.size() > 0) {
-            List<Trackable> filteredTrackables = TrackableService.getInstance().getTrackablesFilteredByCategory(filteringSelectedItems);
+            filteredTrackables = TrackableService.getInstance().getTrackablesFilteredByCategory(filteringSelectedItems);
             ((TrackableAdapter)mAdapter).updateData(filteredTrackables);
+        } else {
+            filteredTrackables = TrackableService.getInstance().getTrackables();
         }
+        ((TrackableAdapter)mAdapter).updateData(filteredTrackables);
+
         dialog.dismiss();
     }
 

@@ -26,19 +26,18 @@ public class TrackingListActivity extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.content_trackings, container, false);
+        View view = inflater.inflate(R.layout.trackings_list, container, false);
 
         mRecyclerView = view.findViewById(R.id.trackingListView);
 
-        // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        // specify an adapter (see also next example)
-        mAdapter = new TrackingAdapter(TrackingDAO.getInstance().getTracking());
+        mAdapter = new TrackingAdapter(TrackingDAO.getInstance().getAllSortedByDate());
         mRecyclerView.setAdapter(mAdapter);
 
         return view;
     }
+
 
 }

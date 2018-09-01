@@ -24,8 +24,12 @@
             android:label="@string/title_activity_trackable_detail"/>
 
         <activity
-            android:name=".controller.TrackingDetailActivity"
-            android:label="@string/title_activity_trackable_detail"/>
+            android:name=".controller.TrackingCreateActivity"
+            android:label="@string/tracking_create_activity_title"/>
+
+        <activity
+            android:name=".controller.TrackingEditActivity"
+            android:label="@string/tracking_edit_activity_title"/>
     </application>
 
 </manifest>

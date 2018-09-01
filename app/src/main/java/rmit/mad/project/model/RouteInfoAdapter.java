@@ -1,20 +1,25 @@
 package rmit.mad.project.model;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.text.DateFormat;
-import java.util.Calendar;
 import java.util.List;
 
 import rmit.mad.project.R;
+import rmit.mad.project.controller.TrackingCreateActivity;
+
+import static rmit.mad.project.enums.IntentModelEnum.ROUTE_INFO;
+import static rmit.mad.project.enums.IntentModelEnum.TRACKABLE_ID;
+
 
 public class RouteInfoAdapter extends RecyclerView.Adapter<RouteInfoAdapter.ViewHolder> {
 
-    private List<TrackingService.TrackingInfo> mDataset;
+    private List<RouteInfo> mDataset;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View customView;
@@ -24,7 +29,7 @@ public class RouteInfoAdapter extends RecyclerView.Adapter<RouteInfoAdapter.View
         }
     }
 
-    public RouteInfoAdapter(List<TrackingService.TrackingInfo> myDataset) {
+    public RouteInfoAdapter(List<RouteInfo> myDataset) {
         mDataset = myDataset;
     }
 
@@ -40,29 +45,42 @@ public class RouteInfoAdapter extends RecyclerView.Adapter<RouteInfoAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
+        final RouteInfo routeInfo = mDataset.get(position);
         View customView = holder.customView;
-        TrackingService.TrackingInfo routeInfo = mDataset.get(position);
 
         TextView locationView = customView.findViewById(R.id.actual_location);
         TextView startView = customView.findViewById(R.id.start);
         TextView finishView = customView.findViewById(R.id.finish);
 
-        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM);
+        locationView.setText(routeInfo.getLocation());
+        startView.setText(routeInfo.getStartDate());
+        finishView.setText(routeInfo.getEndDate());
 
-        locationView.setText(routeInfo.latitude + ", " + routeInfo.longitude);
-        startView.setText(dateFormat.format(routeInfo.date));
+        if(routeInfo.getTimeStopped() > 0) {
+            ImageView calendarView = customView.findViewById(R.id.calendar);
+            calendarView.setVisibility(View.VISIBLE);
 
-        Calendar endDate= Calendar.getInstance();
-        endDate.setTime(routeInfo.date);
-        endDate.set(Calendar.MINUTE, endDate.get(Calendar.MINUTE) + routeInfo.stopTime);
-
-        finishView.setText(dateFormat.format(endDate.getTime()));
-
+            customView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    createTracking(v, routeInfo);
+                }
+            });
+        }
     }
 
     @Override
     public int getItemCount() {
         return mDataset.size();
+    }
+
+    public void createTracking(final View view, final RouteInfo routeInfo) {
+        Intent intent = new Intent(view.getContext(), TrackingCreateActivity.class);
+
+        intent.putExtra(TRACKABLE_ID.name(), routeInfo.getTrackableId());
+        intent.putExtra(ROUTE_INFO.name(), routeInfo);
+
+        view.getContext().startActivity(intent);
     }
 
 }

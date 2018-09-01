@@ -1,39 +1,30 @@
 package rmit.mad.project.model;
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
-public class TrackingDAO {
+public class TrackingDAO extends PersistanceService<Tracking>{
 
-    private static List<Tracking> trackingList = new ArrayList<Tracking>();
     private static TrackingDAO instance = new TrackingDAO();
+
     private TrackingDAO() { }
 
     public static TrackingDAO getInstance() {
         return instance;
     }
 
-    public List<Tracking> getTracking() {
-        return trackingList;
-    }
+    public List<Tracking> getAllSortedByDate() {
+        List<Tracking> resp = getAll();
 
-    public void persistTracking(Tracking tracking) {
-        trackingList.add(tracking);
-    }
-
-    public Tracking getTracking(String id) {
-        Tracking resp = null;
-        for(Tracking tracking : trackingList) {
-            if(tracking.getId().equals(id)) {
-                resp = tracking;
-                break;
-            }
-        }
+        Collections.sort(resp, new TrackingSorting());
         return resp;
     }
 
-
-    public void deleteTrackingById(String trackingId) {
-//        trackingList.remove(tracking);
+    class TrackingSorting implements Comparator<Tracking> {
+        @Override
+        public int compare(Tracking t1, Tracking t2) {
+            return t1.getMeetTime().compareTo(t2.getMeetTime());
+        }
     }
 }

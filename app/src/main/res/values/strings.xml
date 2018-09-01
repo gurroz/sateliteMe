@@ -1,17 +1,27 @@
 <resources>
     <string name="app_name">Assigment</string>
     <string name="action_filter">Filter</string>
-    <string name="tabs_option1">Trackables</string>
-    <string name="add_tracking">Add Tracking</string>
+    <string name="tabs_option1">Food Trucks</string>
+    <string name="add_tracking">Add Meeting</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
-    <string name="tabs_option2">Tracking Events</string>
-    <string name="detail_tracking_title">Tracking Events</string>
-    <string name="title_activity_trackable_detail">TrackableDetailActivity</string>
-    <string name="title_activity_tracking_detail">TrackingDetailActivity</string>
+    <string name="tabs_option2">Meeting Events</string>
+    <string name="detail_tracking_title">Select a time to schedule a meeting</string>
+    <string name="title_activity_trackable_detail">Food Truck Detail</string>
     <string name="dialog_filter_trackables">Filter by category</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="tracking_trackable_title">Tracking %1$s</string>
+    <string name="tracking_trackable_title">Meeting %1$s</string>
+    <string name="tracking_title">Title</string>
+    <string name="tracking_actual_location">Actual Location</string>
+    <string name="tracking_meet_time">Meet Time</string>
+    <string name="tracking_meet_location">Meet Location</string>
+    <string name="tracking_create_activity_title">Create a Meeting</string>
+    <string name="tracking_edit_activity_title">Edit a Meeting</string>
+    <string name="tracking_meeting_time_error">The Meeting time must be between arriving and leaving</string>
+
+    <string name="route_info_title_location">Location</string>
+    <string name="route_info_title_arriving">Arriving Time</string>
+    <string name="route_info_title_leaving">Leaving Time</string>
 
 </resources>

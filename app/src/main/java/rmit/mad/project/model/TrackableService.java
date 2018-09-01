@@ -32,7 +32,7 @@ public class TrackableService {
             truk.setCategory(properties[4].replaceAll("\"", ""));
 
 
-            TrackableDAO.getInstance().persistTrackable(truk);
+            TrackableDAO.getInstance().save(String.valueOf(truk.getId()), truk);
 
             trackables.add(truk);
             line = reader.readLine();
@@ -40,12 +40,12 @@ public class TrackableService {
     }
 
     public List<Trackable> getTrackables() {
-        return TrackableDAO.getInstance().getTrackables();
+        return TrackableDAO.getInstance().getAll();
     }
 
     public List<Trackable> getTrackablesFilteredByCategory(List<String> categories) {
         List<Trackable> filteredTrackables = new ArrayList<>();
-        List<Trackable> allTrackables = TrackableDAO.getInstance().getTrackables();
+        List<Trackable> allTrackables = TrackableDAO.getInstance().getAll();
         for(Trackable trackable : allTrackables) {
             if(categories.contains(trackable.getCategory())) {
                 filteredTrackables.add(trackable);
@@ -56,7 +56,7 @@ public class TrackableService {
 
     public String[] getTrackablesCategories() {
         List<String> categories = new ArrayList<>();
-        List<Trackable> allTrackables = TrackableDAO.getInstance().getTrackables();
+        List<Trackable> allTrackables = TrackableDAO.getInstance().getAll();
         for(Trackable trackable : allTrackables) {
             if(!categories.contains(trackable.getCategory())) {
                 categories.add(trackable.getCategory());

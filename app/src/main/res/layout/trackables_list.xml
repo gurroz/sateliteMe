@@ -9,7 +9,7 @@
         android:id="@+id/filterBtn"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
         android:adjustViewBounds="false"
@@ -18,10 +18,14 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/trackableListView"
-        android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:overScrollMode="ifContentScrolls"/>
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:overScrollMode="ifContentScrolls"
+        android:scrollbars="vertical" />
 
 </LinearLayout>
 

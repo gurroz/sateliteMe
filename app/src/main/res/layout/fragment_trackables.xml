@@ -4,17 +4,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/background_light"
+    android:layout_marginLeft="3dp"
+    android:layout_marginRight="3dp"
+    android:layout_marginTop="5dp"
+    android:background="@android:color/darker_gray"
     android:orientation="vertical"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp">
+    android:paddingTop="3dp">
 
     <TextView
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:background="@android:color/background_light"
         android:textAlignment="viewStart"
         android:textAllCaps="true"
         android:textSize="18sp"
@@ -24,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="3dp"
+        android:background="@android:color/background_light"
         android:orientation="horizontal">
 
         <ImageView
