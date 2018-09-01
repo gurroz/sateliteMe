@@ -1,6 +1,5 @@
-package rmit.mad.project.model;
+package rmit.mad.project.adapter;
 
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,13 +7,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import rmit.mad.project.R;
-import rmit.mad.project.controller.TrackingEditActivity;
-
-import static rmit.mad.project.enums.IntentModelEnum.TRACKABLE_ID;
-import static rmit.mad.project.enums.IntentModelEnum.TRACKING_ID;
+import rmit.mad.project.controller.TrackingEditController;
+import rmit.mad.project.model.Tracking;
 
 public class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.ViewHolder> {
 
@@ -28,8 +26,8 @@ public class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.ViewHo
         }
     }
 
-    public TrackingAdapter(List<Tracking> myDataset) {
-        mDataset = myDataset;
+    public TrackingAdapter() {
+        mDataset = new ArrayList<>();
     }
 
     @Override
@@ -45,12 +43,7 @@ public class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.ViewHo
         final View customView = holder.customView;
         final Tracking tracking = mDataset.get(position);
 
-        customView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickReal(customView, tracking);
-            }
-        });
+        customView.setOnClickListener( new TrackingEditController(tracking.getIdTrackable(), tracking.getId()));
 
         TextView nameView = customView.findViewById(R.id.title);
         nameView.setText(tracking.getTitle());
@@ -70,10 +63,8 @@ public class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.ViewHo
         return mDataset.size();
     }
 
-    public void onClickReal(final View view, final Tracking tracking) {
-        Intent intent = new Intent(view.getContext(), TrackingEditActivity.class);
-        intent.putExtra(TRACKING_ID.name(), tracking.getId());
-        intent.putExtra(TRACKABLE_ID.name(), tracking.getIdTrackable());
-        view.getContext().startActivity(intent);
+    public void updateData(List<Tracking> myDataset) {
+        mDataset = myDataset;
+        notifyDataSetChanged();
     }
 }

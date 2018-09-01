@@ -1,8 +1,8 @@
 package rmit.mad.project.model;
 
-public  class TrackingImp extends Tracking {
+public  class Meeting extends Tracking {
 
-   public TrackingImp() { }
+   public Meeting() { }
 
 
     @Override

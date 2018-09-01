@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class PersistanceService<E> implements IPersistanceService<E>  {
+import rmit.mad.project.model.ILocalStorage;
+
+public abstract class LocalStorage<E> implements ILocalStorage<E> {
 
     protected Map<String, E> collectionMap = new HashMap<String, E>();
 

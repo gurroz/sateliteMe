@@ -2,7 +2,7 @@ package rmit.mad.project.model;
 
 import java.util.List;
 
-public interface IPersistanceService<E> {
+public interface ILocalStorage<E> {
 
     List<E> getAll();
     E getById(String id);

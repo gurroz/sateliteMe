@@ -1,4 +1,4 @@
-package rmit.mad.project.controller;
+package rmit.mad.project.view;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -12,15 +12,12 @@ import java.util.List;
 
 import rmit.mad.project.R;
 
+import static rmit.mad.project.enums.IntentModelEnum.TRACKABLE_CATEGORIES;
+
 
 public class TrackablesFilterFragment extends DialogFragment {
 
-    public interface TrackablesFilterListener {
-        void onDialogPositiveClick(DialogFragment dialog, List<String> filteringSelectedItems);
-        void onDialogNegativeClick(DialogFragment dialog);
-    }
-
-    TrackablesFilterListener clickListener;
+    ICategoryFilterListener clickListener;
     List<String> filteringSelectedItems;  // Where we track the selected items
     String[] filteringItems;
 
@@ -30,16 +27,16 @@ public class TrackablesFilterFragment extends DialogFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            clickListener = (TrackablesFilterListener) getTargetFragment();
+            clickListener = (ICategoryFilterListener) getTargetFragment();
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " must implement TrackablesFilterListener");
+            throw new ClassCastException(context.toString() + " must implement ICategoryFilterListener");
         }
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         filteringSelectedItems = new ArrayList();
-        filteringItems =  getArguments().getStringArray("categories");
+        filteringItems =  getArguments().getStringArray(TRACKABLE_CATEGORIES.name());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 

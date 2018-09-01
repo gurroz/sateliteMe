@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class TrackingDAO extends PersistanceService<Tracking>{
+public class TrackingDAO extends LocalStorage<Tracking> {
 
     private static TrackingDAO instance = new TrackingDAO();
 

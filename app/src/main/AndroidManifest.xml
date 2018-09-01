@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".controller.HomeActivity"
+            android:name=".view.HomeActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -20,15 +20,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".controller.TrackableDetailActivity"
+            android:name=".view.TrackableDetailActivity"
             android:label="@string/title_activity_trackable_detail"/>
 
         <activity
-            android:name=".controller.TrackingCreateActivity"
+            android:name=".view.TrackingCreateActivity"
             android:label="@string/tracking_create_activity_title"/>
 
         <activity
-            android:name=".controller.TrackingEditActivity"
+            android:name=".view.TrackingEditActivity"
             android:label="@string/tracking_edit_activity_title"/>
     </application>
 

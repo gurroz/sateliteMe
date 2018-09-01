@@ -9,13 +9,11 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.Objects;
 
-import rmit.mad.project.controller.TrackingCreateActivity;
-
 public abstract class Tracking {
     private static final String TAG = Tracking.class.getName();
 
     private String id;
-    private int idTrackable;
+    private String idTrackable;
     private String title;
     private Date targetStartTime;
     private Date targetFinishTime;
@@ -29,15 +27,18 @@ public abstract class Tracking {
         return id;
     }
 
-    public void setId() {
-        id = md5(idTrackable + targetStartTime.toString() + (Math.random() * 1000));
+    public void setId(String id) {
+        this.id = id;
+        if(this.id == null) {
+            this.id = md5(idTrackable + targetStartTime.toString() + (Math.random() * 1000));
+        }
     }
 
-    public int getIdTrackable() {
+    public String getIdTrackable() {
         return idTrackable;
     }
 
-    public void setIdTrackable(int idTrackable) {
+    public void setIdTrackable(String idTrackable) {
         this.idTrackable = idTrackable;
     }
 

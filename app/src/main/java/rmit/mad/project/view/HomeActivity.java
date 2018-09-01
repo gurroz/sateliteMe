@@ -1,4 +1,4 @@
-package rmit.mad.project.controller;
+package rmit.mad.project.view;
 
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import rmit.mad.project.R;
-import rmit.mad.project.model.TrackableService;
+import rmit.mad.project.service.TrackableService;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -40,11 +40,18 @@ public class HomeActivity extends AppCompatActivity {
 
         tabHost.addTab(tab, TrackingListActivity.class,null);
 
+        initData();
+    }
+
+    /**
+     * This method is only used to populate the app on first run. Should change when persistance is introduced.
+     */
+    private void initData() {
         Resources res = getResources();
         InputStream stream = res.openRawResource(R.raw.food_truck_data);
 
         try {
-           TrackableService.getInstance().initTrackables(stream);
+            TrackableService.getInstance().initTrackables(stream);
         } catch (IOException e) {
             Log.e(TAG, "Error reading food truck files: {}", e);
         }

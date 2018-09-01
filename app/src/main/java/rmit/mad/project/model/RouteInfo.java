@@ -9,14 +9,14 @@ import java.util.Date;
 
 public class RouteInfo implements Parcelable {
 
-    private int trackableId;
+    private String trackableId;
     private String startDate;
     private String endDate;
     private int timeStopped;
     private String location;
 
     public RouteInfo(int trackableId, Date startingDate, int timeStopped, double lat, double lng) {
-        this.trackableId = trackableId;
+        this.trackableId = String.valueOf(trackableId);
         DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM);
 
         this.startDate = dateFormat.format(startingDate);
@@ -31,18 +31,18 @@ public class RouteInfo implements Parcelable {
     }
 
     public RouteInfo(Parcel in) {
-        trackableId = in.readInt();
+        trackableId = in.readString();
         startDate = in.readString();
         endDate = in.readString();
         timeStopped = in.readInt();
         location = in.readString();
     }
 
-    public int getTrackableId() {
+    public String getTrackableId() {
         return trackableId;
     }
 
-    public void setTrackableId(int trackableId) {
+    public void setTrackableId(String trackableId) {
         this.trackableId = trackableId;
     }
 
@@ -85,7 +85,7 @@ public class RouteInfo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(trackableId);
+        dest.writeString(trackableId);
         dest.writeString(startDate);
         dest.writeString(endDate);
         dest.writeInt(timeStopped);

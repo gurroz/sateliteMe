@@ -1,4 +1,4 @@
-package rmit.mad.project.model;
+package rmit.mad.project.service;
 
 // simulated tracking service by Caspar for MAD s2, 2018
 // Usage: add this class to project in appropriate package

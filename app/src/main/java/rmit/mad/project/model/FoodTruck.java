@@ -1,8 +1,8 @@
 package rmit.mad.project.model;
 
-public  class TrackableImp extends Trackable {
+public  class FoodTruck extends Trackable {
 
-   public TrackableImp() { }
+   public FoodTruck() { }
 
 
     @Override

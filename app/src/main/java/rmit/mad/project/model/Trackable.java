@@ -3,7 +3,7 @@ package rmit.mad.project.model;
 import java.util.Objects;
 
 public abstract class Trackable {
-    private int id;
+    private String id;
     private String name;
     private String description;
     private String url;
@@ -12,7 +12,7 @@ public abstract class Trackable {
 
     public Trackable() {}
 
-    public Trackable(int id, String name, String description, String url, String category, String media) {
+    public Trackable(String id, String name, String description, String url, String category, String media) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -21,11 +21,11 @@ public abstract class Trackable {
         this.media = media;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

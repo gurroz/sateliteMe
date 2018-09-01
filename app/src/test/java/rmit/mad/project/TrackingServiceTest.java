@@ -1,19 +1,13 @@
 package rmit.mad.project;
 
 import android.content.Context;
-import android.util.Log;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
-import rmit.mad.project.model.TrackingService;
+import rmit.mad.project.service.TrackingService;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
