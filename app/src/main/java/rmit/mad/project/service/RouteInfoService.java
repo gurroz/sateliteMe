@@ -1,6 +1,7 @@
 package rmit.mad.project.service;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,9 +28,11 @@ public class RouteInfoService extends Observable {
 
         List<TrackingService.TrackingInfo> routesInfo = TrackingService.getSingletonInstance(context).getTrackingInfoForTimeRange(actualDate, searchWindow, 0 );
         List<RouteInfo> routesInfoFiltered = new ArrayList<>();
-
+        Log.d("TAG", "Assquing "+ trackableId + "for date: " + actualDate.toString());
         int amount = 0;
         for(TrackingService.TrackingInfo routeInfo : routesInfo) {
+            Log.d("TAG", "REspond Tracking info: " + routeInfo.toString());
+
             if(Integer.valueOf(trackableId) == routeInfo.trackableId) {
                 routesInfoFiltered.add(new RouteInfo(routeInfo.trackableId, routeInfo.date, routeInfo.stopTime, routeInfo.latitude, routeInfo.longitude));
                 amount++;

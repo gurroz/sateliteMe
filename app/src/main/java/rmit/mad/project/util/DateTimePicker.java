@@ -40,7 +40,7 @@ public class DateTimePicker implements View.OnClickListener {
             new TimePickerDialog(view.getContext(), new TimePickerDialogListener(returnDate)
                     , currentDate.get(Calendar.HOUR_OF_DAY)
                     , currentDate.get(Calendar.MINUTE)
-                    , true)
+                    , false)
                     .show();
         }
     }
