@@ -91,13 +91,10 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/routeInfoListView"
-                android:scrollbars="vertical"
-                android:overScrollMode="ifContentScrolls"
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/mapView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
+                android:layout_height="match_parent" />
 
         </LinearLayout>
 
