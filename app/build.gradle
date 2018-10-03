@@ -20,6 +20,8 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+
+    useLibrary 'org.apache.http.legacy'
 }
 
 dependencies {
