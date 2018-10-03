@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:key="settings_notification"
+        android:title="@string/settings_notification_title"
+        android:defaultValue="@string/settings_notification_value"
+        android:inputType="number"/>
+
+    <EditTextPreference
+        android:key="settings_suggestion"
+        android:title="@string/settings_suggestion_title"
+        android:defaultValue="@string/settings_suggestion_value"
+        android:inputType="number"/>
+</PreferenceScreen>
