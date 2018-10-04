@@ -43,8 +43,9 @@ public class TrackingEditActivity extends TrackingDetailActivity {
         this.deleteTrackingBtn.setVisibility(View.VISIBLE);
         this.deleteTrackingBtn.setOnClickListener(new TrackingDeleteController(tracking.getId()));
 
-        saveTrackingBtn.setOnClickListener(new TrackingSaveController(trackingId, trackable.getId(), titleView,
-                startView, endView, meetingLocationView,meetingTimeView,locationView));
+        saveTrackingBtn.setOnClickListener(new TrackingSaveController(trackingId, trackable.getId(), titleView.getText().toString(),
+                startView.getText().toString(), endView.getText().toString(), meetingLocationView.getText().toString(),
+                meetingTimeView.getText().toString(), locationView.getText().toString()));
     }
 
 }

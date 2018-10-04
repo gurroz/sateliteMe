@@ -1,5 +1,6 @@
 package rmit.mad.project.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import java.util.List;
@@ -16,9 +18,10 @@ import java.util.Observer;
 
 import rmit.mad.project.R;
 import rmit.mad.project.adapter.TrackableAdapter;
-import rmit.mad.project.service.TrackableService;
 import rmit.mad.project.controller.TrackableFilterDialogController;
 import rmit.mad.project.model.Trackable;
+import rmit.mad.project.service.SuggestionService;
+import rmit.mad.project.service.TrackableService;
 
 public class TrackableListActivity extends Fragment implements Observer, ICategoryFilterListener {
 
@@ -27,6 +30,7 @@ public class TrackableListActivity extends Fragment implements Observer, ICatego
     private RecyclerView.LayoutManager mLayoutManager;
 
     private ImageButton filterBtn;
+    private Button suggestionBtn;
     private TrackableService trackableService;
     private TrackableFilterDialogController trackableFilterDialogController;
 
@@ -40,9 +44,17 @@ public class TrackableListActivity extends Fragment implements Observer, ICatego
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.trackables_list, container, false);
         filterBtn = view.findViewById(R.id.filterBtn);
+        suggestionBtn = view.findViewById(R.id.suggestion_btn);
 
         trackableFilterDialogController = new TrackableFilterDialogController(getFragmentManager(), TrackableListActivity.this);
         filterBtn.setOnClickListener(trackableFilterDialogController);
+        suggestionBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), SuggestionService.class);
+                getContext().startService(intent);
+            }
+        });
 
         mAdapter = new TrackableAdapter();
         mLayoutManager = new LinearLayoutManager(getContext());

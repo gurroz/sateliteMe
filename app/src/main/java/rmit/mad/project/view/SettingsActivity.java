@@ -1,13 +1,16 @@
 package rmit.mad.project.view;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 
 import rmit.mad.project.R;
+import rmit.mad.project.service.AlarmService;
 
 
-public class SettingsActivity extends PreferenceActivity {
+public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,6 +18,20 @@ public class SettingsActivity extends PreferenceActivity {
 
         // Display the fragment as the main content.
         getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
+
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        Context context = getApplicationContext();
+        switch (key) {
+            case "settings_suggestion":
+                AlarmService.setAlarmSuggestions(context);
+                break;
+            case "settings_notification":
+                AlarmService.setMeetingNotification(context);
+                break;
+        }
     }
 
 

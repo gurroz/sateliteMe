@@ -39,6 +39,15 @@
         <activity
             android:name=".view.SettingsActivity"
             android:label="@string/settings_activity_settings" />
+        <activity
+            android:name=".view.TrackingSuggestionActivity"
+            android:label="@string/title_activity_tracking_suggestion"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:launchMode="singleTask"/>
+
+        <service
+            android:name=".service.SuggestionService"
+            android:enabled="true"/>
     </application>
 
 </manifest>

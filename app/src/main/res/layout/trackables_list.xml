@@ -5,16 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageButton
-        android:id="@+id/filterBtn"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_gravity="end"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:adjustViewBounds="false"
-        android:baselineAlignBottom="false"
-        app:srcCompat="@drawable/filter" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/filterBtn"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="end"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:adjustViewBounds="false"
+            android:baselineAlignBottom="false"
+            app:srcCompat="@drawable/filter" />
+
+        <Button
+            android:id="@+id/suggestion_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:gravity="right|end"
+            android:text="@string/trackables_suggestion" />
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/trackableListView"

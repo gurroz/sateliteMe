@@ -3,6 +3,7 @@ package rmit.mad.project.view;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,10 +16,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import rmit.mad.project.R;
+import rmit.mad.project.service.AlarmService;
 import rmit.mad.project.service.TrackableService;
-
-import static rmit.mad.project.enums.IntentModelEnum.ROUTE_INFO;
-import static rmit.mad.project.enums.IntentModelEnum.TRACKABLE_ID;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -35,6 +34,8 @@ public class HomeActivity extends AppCompatActivity {
 
         tabHost = findViewById(android.R.id.tabhost);
         tabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
+
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
 
         String tabOneName = getString(R.string.tabs_option1);
@@ -65,6 +66,10 @@ public class HomeActivity extends AppCompatActivity {
         } catch (IOException e) {
             Log.e(TAG, "Error reading food truck files: {}", e);
         }
+
+
+        AlarmService.setAlarmSuggestions(this);
+        AlarmService.setMeetingNotification(this);
     }
 
     @Override

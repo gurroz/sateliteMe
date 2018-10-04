@@ -36,8 +36,9 @@ public class TrackingCreateActivity extends TrackingDetailActivity {
         this.endView.setText(endDate);
         this.locationView.setText(actualLocation);
 
-        saveTrackingBtn.setOnClickListener(new TrackingSaveController(null, trackable.getId(), titleView,
-                startView, endView, meetingLocationView,meetingTimeView,locationView));
+        saveTrackingBtn.setOnClickListener(new TrackingSaveController(null, trackable.getId(), titleView.getText().toString(),
+                startView.getText().toString(), endView.getText().toString(), meetingLocationView.getText().toString(),
+                meetingTimeView.getText().toString(), locationView.getText().toString()));
     }
 
 }

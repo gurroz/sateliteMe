@@ -2,8 +2,6 @@ package rmit.mad.project.controller;
 
 import android.app.Activity;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import rmit.mad.project.R;
@@ -13,23 +11,23 @@ public class TrackingSaveController implements View.OnClickListener {
 
     private String idTracking;
     private String trackableId;
-    private EditText titleView;
-    private TextView startView;
-    private TextView endView;
-    private EditText meetingLocationView;
-    private EditText meetingTimeView;
-    private TextView actualLocationView;
+    private String title;
+    private String startDate;
+    private String endDate;
+    private String meetingLocation;
+    private String meetingTime;
+    private String actualLocation;
 
-    public TrackingSaveController(String idTracking, String trackableId, EditText titleView, TextView startView,
-                                  TextView endView, EditText meetingLocationView, EditText meetingTimeView, TextView actualLocationView) {
-        this.idTracking = idTracking;
-        this.trackableId = trackableId;
-        this.titleView = titleView;
-        this.startView = startView;
-        this.endView = endView;
-        this.meetingLocationView = meetingLocationView;
-        this.meetingTimeView = meetingTimeView;
-        this.actualLocationView = actualLocationView;
+    public TrackingSaveController(String idTracking, String trackableId, String title, String start,
+                                  String end, String meetingLocation, String meetingTime, String actualLocation) {
+        idTracking = idTracking;
+        trackableId = trackableId;
+        title = title;
+        startDate = start;
+        endDate = end;
+        meetingLocation= meetingLocation;
+        meetingTime = meetingTime;
+        actualLocation = actualLocation;
     }
 
     @Override
@@ -42,14 +40,6 @@ public class TrackingSaveController implements View.OnClickListener {
      * @param view
      */
     private void saveOnClick(final View view) {
-
-        String title = titleView.getText().toString();
-        String startDate = startView.getText().toString();
-        String endDate = endView.getText().toString();
-        String meetingLocation= meetingLocationView.getText().toString();
-        String meetingTime = meetingTimeView.getText().toString();
-        String actualLocation = actualLocationView.getText().toString();
-
         if(TrackableTrackingsService.getInstance().saveTracking(idTracking, trackableId, startDate, endDate,
                 actualLocation, title, meetingTime, meetingLocation)) {
             ((Activity)view.getContext()).finish();

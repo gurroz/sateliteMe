@@ -53,6 +53,10 @@ public class TrackableService extends Observable {
         notifyObservers(TrackableDAO.getInstance().getAll());
     }
 
+    public List<Trackable> getTrackablesList() {
+        return TrackableDAO.getInstance().getAll();
+    }
+
     public void getTrackablesFilteredByCategory(List<String> categories) {
         List<Trackable> filteredTrackables = new ArrayList<>();
         List<Trackable> allTrackables = TrackableDAO.getInstance().getAll();
