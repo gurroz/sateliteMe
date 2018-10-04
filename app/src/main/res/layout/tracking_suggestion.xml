@@ -29,7 +29,7 @@
             android:singleLine="false"
             android:text="@string/suggestion_description"
             android:textAlignment="center"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/sugg_trackable_name"
@@ -84,8 +84,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView

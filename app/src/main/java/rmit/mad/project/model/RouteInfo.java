@@ -10,10 +10,16 @@ import java.util.Date;
 public class RouteInfo implements Parcelable {
 
     private String trackableId;
+    private String trackableName;
+    private String trackableType;
     private String startDate;
     private String endDate;
+    private Date endDateValue;
     private int timeStopped;
     private String location;
+    private String locationName;
+    private String meetingTime;
+    private String distanceTime;
 
     public RouteInfo(int trackableId, Date startingDate, int timeStopped, double lat, double lng) {
         this.trackableId = String.valueOf(trackableId);
@@ -25,6 +31,7 @@ public class RouteInfo implements Parcelable {
         targetCalStart.setTime(startingDate);
         targetCalStart.set(Calendar.MINUTE, targetCalStart.get(Calendar.MINUTE) + timeStopped);
 
+        this.endDateValue = targetCalStart.getTime();
         this.endDate = dateFormat.format(targetCalStart.getTime());
         this.timeStopped = timeStopped;
         this.location = lat + ","+ lng;
@@ -36,6 +43,15 @@ public class RouteInfo implements Parcelable {
         endDate = in.readString();
         timeStopped = in.readInt();
         location = in.readString();
+    }
+
+    public void fillMissingInfo(Date meetingDate, String locationName, String trackableName, String trackabletype, String distance) {
+        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM);
+        this.meetingTime = dateFormat.format(meetingDate);
+        this.locationName = locationName;
+        this.trackableName = trackableName;
+        this.trackableType = trackabletype;
+        this.distanceTime = distance;
     }
 
     public String getTrackableId() {
@@ -78,6 +94,54 @@ public class RouteInfo implements Parcelable {
         this.location = location;
     }
 
+    public String getTrackableName() {
+        return trackableName;
+    }
+
+    public void setTrackableName(String trackableName) {
+        this.trackableName = trackableName;
+    }
+
+    public Date getEndDateValue() {
+        return endDateValue;
+    }
+
+    public void setEndDateValue(Date endDateValue) {
+        this.endDateValue = endDateValue;
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+
+    public String getMeetingTime() {
+        return meetingTime;
+    }
+
+    public void setMeetingTime(String meetingTime) {
+        this.meetingTime = meetingTime;
+    }
+
+    public String getTrackableType() {
+        return trackableType;
+    }
+
+    public void setTrackableType(String trackableType) {
+        this.trackableType = trackableType;
+    }
+
+    public String getDistanceTime() {
+        return distanceTime;
+    }
+
+    public void setDistanceTime(String distanceTime) {
+        this.distanceTime = distanceTime;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -102,5 +166,21 @@ public class RouteInfo implements Parcelable {
         }
     };
 
-
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("RouteInfo{");
+        sb.append("trackableId='").append(trackableId).append('\'');
+        sb.append(", trackableName='").append(trackableName).append('\'');
+        sb.append(", trackableType='").append(trackableType).append('\'');
+        sb.append(", startDate='").append(startDate).append('\'');
+        sb.append(", endDate='").append(endDate).append('\'');
+        sb.append(", endDateValue=").append(endDateValue);
+        sb.append(", timeStopped=").append(timeStopped);
+        sb.append(", location='").append(location).append('\'');
+        sb.append(", locationName='").append(locationName).append('\'');
+        sb.append(", meetingTime='").append(meetingTime).append('\'');
+        sb.append(", distanceTime='").append(distanceTime).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

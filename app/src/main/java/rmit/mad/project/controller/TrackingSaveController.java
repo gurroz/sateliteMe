@@ -20,15 +20,16 @@ public class TrackingSaveController implements View.OnClickListener {
 
     public TrackingSaveController(String idTracking, String trackableId, String title, String start,
                                   String end, String meetingLocation, String meetingTime, String actualLocation) {
-        idTracking = idTracking;
-        trackableId = trackableId;
-        title = title;
-        startDate = start;
-        endDate = end;
-        meetingLocation= meetingLocation;
-        meetingTime = meetingTime;
-        actualLocation = actualLocation;
+        this.idTracking = idTracking;
+        this.trackableId = trackableId;
+        this.title = title;
+        this.startDate = start;
+        this.endDate = end;
+        this.meetingLocation= meetingLocation;
+        this.meetingTime = meetingTime;
+        this.actualLocation = actualLocation;
     }
+
 
     @Override
     public void onClick(View v) {

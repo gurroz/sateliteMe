@@ -6,7 +6,7 @@
     <string name="save">Save</string>
     <string name="delete">Delete</string>
     <string name="tabs_option2">Meeting Events</string>
-    <string name="detail_tracking_title">Select a time to schedule a meeting</string>
+    <string name="detail_tracking_title">Food Truck Route</string>
     <string name="title_activity_trackable_detail">Food Truck Detail</string>
     <string name="dialog_filter_trackables">Filter by category</string>
     <string name="ok">OK</string>
@@ -31,7 +31,7 @@
     <string name="settings_suggestion_value">60</string>
     <string name="title_activity_tracking_suggestion">TrackingSuggestionActivity</string>
     <string name="suggestion_title">Meeting Suggestion</string>
-    <string name="suggestion_description">We found the nearest stopping food truck to you. Would you like to create a meeting to track it?</string>
+    <string name="suggestion_description">We found the nearest stopping food truck to you.\n \nWould you like to create a meeting to track it?</string>
     <string name="suggestion_accept">Accept</string>
     <string name="suggestion_next">Next</string>
     <string name="suggestion_cancel">Cancel</string>

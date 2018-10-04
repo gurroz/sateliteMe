@@ -1,13 +1,15 @@
 package rmit.mad.project.service;
 
 import android.app.IntentService;
-import android.app.Service;
 import android.content.Intent;
-import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import rmit.mad.project.dto.DistanceResponseDTO;
@@ -29,27 +31,19 @@ public class SuggestionService extends IntentService {
     }
 
     public void getSuggestion() {
-        List<Trackable> trackables = TrackableService.getInstance().getTrackablesList();
         DistanceCalculationService distanceService = new DistanceCalculationService();
 
-        List<RouteInfo> routesInfo = null;
-        for(Trackable trackable: trackables) {
-            routesInfo = RouteInfoService.getInstance().getTrackableRouteInfoTest(this, trackable.getId(), 100);
-            if(routesInfo != null && routesInfo.size() > 0) {
-                Log.d("SuggestionService", "RouteInfo No es nulo: " + trackable.toString());
-                break;
-            }
-        }
-
-        Log.d("SuggestionService", "RouteInfo es: " + routesInfo.toString());
+        List<RouteInfo> routesInfo = RouteInfoService.getInstance().getTrackableRouteInfoFromNowStopping(this, 100);
         List<String> destinations = new ArrayList();
         for(RouteInfo routeInfo : routesInfo) {
             destinations.add(routeInfo.getLocation());
         }
 
-        DistanceResponseDTO result = distanceService.getDistanceFromSource( "-37.807425,144.963814", destinations);
-        Log.d("SuggestionService", "Result es: " + result.toString());
+        DistanceResponseDTO distanceResults = distanceService.getDistanceFromSource( "-37.807425,144.963814", destinations);
+        Log.d("SuggestionService", "Result es: " + distanceResults.toString());
 
+
+        RouteInfoService.getInstance().saveSuggestedRoutesInfo(filterByArrivalTime(routesInfo, distanceResults));
         Intent suggestionIntent = new Intent(getBaseContext(), TrackingSuggestionActivity.class);
         getApplication().startActivity(suggestionIntent);
 
@@ -57,10 +51,45 @@ public class SuggestionService extends IntentService {
     }
 
 
-    private void filterByLeavingTime() {
+    /**
+     * Filter the list of potential suggestion based on the arrival time on the location will match the actual trackable
+     * @param routesInfo List of potential meetings
+     * @param distances information with the walking distance in time
+     * @return
+     */
+    private List<RouteInfo> filterByArrivalTime(List<RouteInfo> routesInfo, DistanceResponseDTO distances) {
+        List<DistanceResponseDTO.DestinationDistanceDTO> destinations = distances.getDestinations();
+        List<RouteInfo> response = new ArrayList<>();
+        for(int i = 0; i < routesInfo.size(); i++) {
+            RouteInfo routeInfo = routesInfo.get(i);
+            DistanceResponseDTO.DestinationDistanceDTO destinationDistance = destinations.get(i); // Asumes same amount of destinations as passed
 
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.SECOND, cal.get(Calendar.MINUTE) + destinationDistance.getSecondsDistance());
+
+            // TODO: This has to be added when testing when real data
+//            if(cal.getTime().before(routeInfo.getEndDateValue())) {
+//                response.add(fillRouteInfohMissingInfo(routeInfo, destinationDistance));
+//            }
+
+            response.add(fillRouteInfohMissingInfo(routeInfo, destinationDistance));
+
+        }
+
+        return response;
     }
 
+    private RouteInfo fillRouteInfohMissingInfo(RouteInfo routeInfo, DistanceResponseDTO.DestinationDistanceDTO destination) {
+        Calendar cal = Calendar.getInstance();
 
+        cal.set(Calendar.SECOND, cal.get(Calendar.MINUTE) + destination.getSecondsDistance());
+
+        Trackable trackable = TrackableService.getInstance().getById(routeInfo.getTrackableId());
+
+        routeInfo.fillMissingInfo(cal.getTime(), destination.getDestination(), trackable.getName(),
+                trackable.getCategory(), destination.getTimeDistance());
+
+        return routeInfo;
+    }
 
 }

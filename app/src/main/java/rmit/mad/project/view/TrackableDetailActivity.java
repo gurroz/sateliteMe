@@ -36,7 +36,6 @@ public class TrackableDetailActivity extends AppCompatActivity {
     private TextView categoryView;
     private TextView descriptionView;
     private ImageView imageView;
-    private Button getDistanceBtn;
 
     private Trackable trackable;
 
@@ -57,10 +56,8 @@ public class TrackableDetailActivity extends AppCompatActivity {
         categoryView = findViewById(R.id.category);
         descriptionView = findViewById(R.id.description);
         imageView = findViewById(R.id.trackableImage);
-        getDistanceBtn = findViewById(R.id.getDistance);
 
-        // TODO: Change this to the RouteInfoService.getInstance().getTrackableRouteInfoFromNow for non testing running.
-        routesInfo = RouteInfoService.getInstance().getTrackableRouteInfoTest(this, trackable.getId(), 100);
+        routesInfo = RouteInfoService.getInstance().getTrackableRouteInfoFromNow(this, trackable.getId(), 100);
 
         mMapView = findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
