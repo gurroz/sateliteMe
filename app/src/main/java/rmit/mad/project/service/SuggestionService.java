@@ -40,12 +40,14 @@ public class SuggestionService extends IntentService {
         }
 
         DistanceResponseDTO distanceResults = distanceService.getDistanceFromSource( "-37.807425,144.963814", destinations);
-        Log.d("SuggestionService", "Result es: " + distanceResults.toString());
 
+        if(distanceResults != null) {
+            Log.d("SuggestionService", "Result es: " + distanceResults.toString());
+            RouteInfoService.getInstance().saveSuggestedRoutesInfo(filterByArrivalTime(routesInfo, distanceResults));
+            Intent suggestionIntent = new Intent(getBaseContext(), TrackingSuggestionActivity.class);
+            getApplication().startActivity(suggestionIntent);
+        }
 
-        RouteInfoService.getInstance().saveSuggestedRoutesInfo(filterByArrivalTime(routesInfo, distanceResults));
-        Intent suggestionIntent = new Intent(getBaseContext(), TrackingSuggestionActivity.class);
-        getApplication().startActivity(suggestionIntent);
 
         stopSelf();
     }

@@ -26,26 +26,31 @@ public class TrackableService extends Observable {
     }
 
     public void initTrackables(InputStream textFile) throws IOException {
-        List<Trackable> trackables = new ArrayList<>();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(textFile));
-        String line = reader.readLine();
+        // Check if database is full if not, create
+        if(!TrackableDAO.getInstance().isDBInitiated()) {
+            List<Trackable> trackables = new ArrayList<>();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(textFile));
+            String line = reader.readLine();
 
-        while (line != null) {
-            String[] properties = line.split(",\"");
+            while (line != null) {
+                String[] properties = line.split(",\"");
 
-            Trackable truk = new FoodTruck();
-            truk.setId(properties[0]);
-            truk.setName(properties[1].replaceAll("\"", ""));
-            truk.setDescription(properties[2].replaceAll("\"", ""));
-            truk.setUrl(properties[3].replaceAll("\"", ""));
-            truk.setCategory(properties[4].replaceAll("\"", ""));
+                Trackable truk = new FoodTruck();
+                truk.setId(properties[0]);
+                truk.setName(properties[1].replaceAll("\"", ""));
+                truk.setDescription(properties[2].replaceAll("\"", ""));
+                truk.setUrl(properties[3].replaceAll("\"", ""));
+                truk.setCategory(properties[4].replaceAll("\"", ""));
 
 
-            TrackableDAO.getInstance().save(String.valueOf(truk.getId()), truk);
+//                TrackableDAO.getInstance().sevaToDatabase(String.valueOf(truk.getId()), truk);
+                TrackableDAO.getInstance().save(String.valueOf(truk.getId()), truk);
 
-            trackables.add(truk);
-            line = reader.readLine();
+                trackables.add(truk);
+                line = reader.readLine();
+            }
         }
+
     }
 
     public void getTrackables() {

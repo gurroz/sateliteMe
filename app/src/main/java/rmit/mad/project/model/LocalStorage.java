@@ -5,15 +5,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import rmit.mad.project.model.ILocalStorage;
-
 public abstract class LocalStorage<E> implements ILocalStorage<E> {
 
     protected Map<String, E> collectionMap = new HashMap<String, E>();
 
     @Override
     public List<E> getAll() {
-        return new ArrayList<E>(collectionMap.values());
+        if(collectionMap.isEmpty()) {
+            List<E> data = this.getFromDatabase();
+            for(E obj: data) {
+                collectionMap.put(getIdFromObject(obj), obj);
+            }
+            return data;
+        } else {
+            return new ArrayList<E>(collectionMap.values());
+        }
     }
 
     @Override
@@ -30,4 +36,10 @@ public abstract class LocalStorage<E> implements ILocalStorage<E> {
     public void delete(String id) {
         collectionMap.remove(id);
     }
+
+    public abstract void persistDatabase();
+    public abstract List<E> getFromDatabase();
+    public abstract List<E> sevaToDatabase(String id, E e);
+    public abstract String getIdFromObject(Object e);
+
 }

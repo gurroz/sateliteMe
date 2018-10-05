@@ -27,4 +27,32 @@ public class TrackingDAO extends LocalStorage<Tracking> {
             return t1.getMeetTime().compareTo(t2.getMeetTime());
         }
     }
+
+    @Override
+    public void persistDatabase() {
+//        List<Tracking> resp = getAll();
+//
+//        database.clear();
+//        for( List<Tracking> resp ){
+//            database.add(resp)         // Call DB service to insert data
+//
+//        }
+    }
+
+    @Override
+    public List<Tracking> getFromDatabase() {
+        return null;
+    }
+
+    @Override
+    public List<Tracking> sevaToDatabase(String id, Tracking tracking) {
+        return null;
+    }
+
+    @Override
+    public String getIdFromObject(Object e) {
+        return ((Tracking)e).getId();
+    }
+
+
 }
