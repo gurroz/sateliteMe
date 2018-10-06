@@ -15,13 +15,12 @@ import static android.app.PendingIntent.FLAG_CANCEL_CURRENT;
 import static android.content.Context.ALARM_SERVICE;
 
 public class AlarmService {
-    private static final int SUGGESTION_REQ_CODE = 15;
     private static final int NOTIFICATION_REQ_CODE = 21;
     private static final String TAG = AlarmService.class.getName();
 
     public static void setAlarmSuggestions(Context context) {
         Intent suggestionIntent = new Intent(context, SuggestionService.class);
-        PendingIntent pendingIntent = PendingIntent.getService(context, SUGGESTION_REQ_CODE, suggestionIntent,  FLAG_CANCEL_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getService(context, SuggestionService.SUGGESTION_REQ_CODE, suggestionIntent,  FLAG_CANCEL_CURRENT);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 

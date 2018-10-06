@@ -1,15 +1,15 @@
 package rmit.mad.project.service;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import rmit.mad.project.dto.DistanceResponseDTO;
@@ -19,6 +19,8 @@ import rmit.mad.project.view.TrackingSuggestionActivity;
 
 public class SuggestionService extends IntentService {
 
+    public static final int SUGGESTION_REQ_CODE = 15;
+
     public SuggestionService() {
         super("SuggestionService");
     }
@@ -26,8 +28,9 @@ public class SuggestionService extends IntentService {
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         Log.d("SuggestionService", "Running");
-        getSuggestion();
-
+        if(isOnline(getApplicationContext())) {
+            getSuggestion();
+        }
     }
 
     public void getSuggestion() {
@@ -94,4 +97,9 @@ public class SuggestionService extends IntentService {
         return routeInfo;
     }
 
+    public boolean isOnline(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return (netInfo != null && netInfo.isConnectedOrConnecting());
+    }
 }

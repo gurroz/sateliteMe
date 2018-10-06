@@ -1,5 +1,6 @@
 package rmit.mad.project.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TrackableDAO extends LocalStorage<Trackable> {
@@ -18,17 +19,17 @@ public class TrackableDAO extends LocalStorage<Trackable> {
 
     @Override
     public List<Trackable> getFromDatabase() {
-        return null;
+        return new ArrayList<Trackable>();
     }
 
     @Override
     public List<Trackable> sevaToDatabase(String id, Trackable trackable) {
-        return null;
+        return new ArrayList<Trackable>();
     }
 
     @Override
     public String getIdFromObject(Object e) {
-        return null;
+        return ((Trackable)e).getId();
     }
 
     public boolean isDBInitiated() {

@@ -13,8 +13,10 @@ public abstract class LocalStorage<E> implements ILocalStorage<E> {
     public List<E> getAll() {
         if(collectionMap.isEmpty()) {
             List<E> data = this.getFromDatabase();
-            for(E obj: data) {
-                collectionMap.put(getIdFromObject(obj), obj);
+            if(data != null) {
+                for (E obj : data) {
+                    collectionMap.put(getIdFromObject(obj), obj);
+                }
             }
             return data;
         } else {

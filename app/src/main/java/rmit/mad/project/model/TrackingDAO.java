@@ -1,5 +1,6 @@
 package rmit.mad.project.model;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -41,12 +42,12 @@ public class TrackingDAO extends LocalStorage<Tracking> {
 
     @Override
     public List<Tracking> getFromDatabase() {
-        return null;
+        return new ArrayList<Tracking>();
     }
 
     @Override
     public List<Tracking> sevaToDatabase(String id, Tracking tracking) {
-        return null;
+        return new ArrayList<Tracking>();
     }
 
     @Override

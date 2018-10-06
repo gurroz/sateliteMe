@@ -1,6 +1,7 @@
 package rmit.mad.project.view;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import rmit.mad.project.R;
+import rmit.mad.project.receiver.NetworkChangeDetector;
 import rmit.mad.project.service.AlarmService;
 import rmit.mad.project.service.TrackableService;
 
@@ -35,9 +37,6 @@ public class HomeActivity extends AppCompatActivity {
         tabHost = findViewById(android.R.id.tabhost);
         tabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
 
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-
-
         String tabOneName = getString(R.string.tabs_option1);
         String tabTwoName = getString(R.string.tabs_option2);
 
@@ -51,7 +50,20 @@ public class HomeActivity extends AppCompatActivity {
 
         tabHost.addTab(tab, TrackingListActivity.class,null);
 
+        initPreferences();
         initData();
+        initReceivers();
+    }
+
+    private void initReceivers() {
+        final IntentFilter networkIntent = new IntentFilter();
+        networkIntent.addAction(android.net.ConnectivityManager.CONNECTIVITY_ACTION);
+
+        registerReceiver(new NetworkChangeDetector(), networkIntent);
+    }
+
+    private void initPreferences() {
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     }
 
     /**
