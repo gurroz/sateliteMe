@@ -125,6 +125,7 @@ public class TrackableDAO extends LocalStorage<Trackable> {
             cursor.moveToFirst();
             trackableID = cursor.getString(cursor.getColumnIndex(TRACKABLE_ID));
         }
+        cursor.close();
         return trackableID;
     }
 
