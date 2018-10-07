@@ -1,11 +1,14 @@
 package rmit.mad.project.view;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,15 +21,24 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import rmit.mad.project.R;
+import rmit.mad.project.receiver.CancelNotificationDetector;
 import rmit.mad.project.receiver.NetworkChangeDetector;
+import rmit.mad.project.receiver.SnoozeNotificationDetector;
 import rmit.mad.project.service.AlarmService;
 import rmit.mad.project.service.TrackableService;
+
+import static rmit.mad.project.receiver.CancelNotificationDetector.ACTION_CANCEL_NOT;
+import static rmit.mad.project.receiver.SnoozeNotificationDetector.ACTION_SNOOZE_NOT;
 
 public class HomeActivity extends AppCompatActivity {
 
     private static final String TAG = HomeActivity.class.getName();
+    private static final int REQUEST_CODE = 100;
+
     private FragmentTabHost tabHost;
     private BroadcastReceiver networkBroadcastReceiver;
+    private BroadcastReceiver snoozeNotificationBroadcastReceiver;
+    private BroadcastReceiver cancelNotificationBroadcastReceiver;
 
 
     @Override
@@ -52,6 +64,7 @@ public class HomeActivity extends AppCompatActivity {
         tab.setIndicator(tabTwoName);
 
         tabHost.addTab(tab, TrackingListActivity.class,null);
+        checkLocationPermission();
 
         initAlarms();
         initData();
@@ -65,6 +78,19 @@ public class HomeActivity extends AppCompatActivity {
 
         networkBroadcastReceiver = new NetworkChangeDetector();
         registerReceiver(networkBroadcastReceiver, networkIntent);
+
+        final IntentFilter cancelNotificationIntent = new IntentFilter();
+        cancelNotificationIntent.addAction(ACTION_CANCEL_NOT);
+
+        cancelNotificationBroadcastReceiver = new CancelNotificationDetector();
+        registerReceiver(cancelNotificationBroadcastReceiver, cancelNotificationIntent);
+
+        final IntentFilter snoozeNotificationIntent = new IntentFilter();
+        snoozeNotificationIntent.addAction(ACTION_SNOOZE_NOT);
+
+        snoozeNotificationBroadcastReceiver = new SnoozeNotificationDetector();
+        registerReceiver(snoozeNotificationBroadcastReceiver, snoozeNotificationIntent);
+
     }
 
     private void initAlarms() {
@@ -92,6 +118,8 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         unregisterReceiver(networkBroadcastReceiver);
+        unregisterReceiver(cancelNotificationBroadcastReceiver);
+        unregisterReceiver(snoozeNotificationBroadcastReceiver);
         super.onDestroy();
     }
 
@@ -118,5 +146,26 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void checkLocationPermission() {
+        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.d(TAG, "Permissions accepted");
+                }  else {
+                    Log.d(TAG, "Permissions NOT accepted");
+                }
+                return;
+            }
+        }
     }
 }

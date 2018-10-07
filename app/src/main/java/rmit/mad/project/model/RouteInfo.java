@@ -22,6 +22,8 @@ public class RouteInfo implements Parcelable {
     private String meetingTime;
     private String distanceTime;
 
+    public RouteInfo() { }
+
     public RouteInfo(int trackableId, Date startingDate, int timeStopped, double lat, double lng) {
         this.trackableId = String.valueOf(trackableId);
         DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM);

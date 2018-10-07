@@ -17,6 +17,8 @@ import rmit.mad.project.model.RouteInfo;
 import rmit.mad.project.model.Trackable;
 import rmit.mad.project.view.TrackingSuggestionActivity;
 
+import static rmit.mad.project.receiver.LocationChangeDetector.LOCATION_COORD;
+
 public class SuggestionService extends IntentService {
 
     public static final int SUGGESTION_REQ_CODE = 15;
@@ -29,31 +31,39 @@ public class SuggestionService extends IntentService {
     protected void onHandleIntent(@Nullable Intent intent) {
         Log.d("SuggestionService", "Running");
         if(isOnline(getApplicationContext())) {
-            getSuggestion();
+            String location = intent.getStringExtra(LOCATION_COORD);
+            if(location != null) {
+                getSuggestion(location);
+            } else {
+                Log.e("SuggestionService", "Location received is null");
+            }
         }
     }
 
-    public void getSuggestion() {
+    public void getSuggestion(String currentLocation) {
         DistanceCalculationService distanceService = new DistanceCalculationService();
 
         List<RouteInfo> routesInfo = RouteInfoService.getInstance().getTrackableRouteInfoFromNowStopping(this, 100);
         if(routesInfo.size() > 0) {
-            Log.d("RouteInfoSaving", "Meetings time:" + routesInfo.size());
 
             List<String> destinations = new ArrayList();
             for(RouteInfo routeInfo : routesInfo) {
-                Log.d("RouteInfoSaving", "Meetings time:" + routeInfo.toString());
                 destinations.add(routeInfo.getLocation());
             }
 
-            //TODO: Add actual position
-            DistanceResponseDTO distanceResults = distanceService.getDistanceFromSource( "-37.807425,144.963814", destinations);
+            // "-37.807425,144.963814"
+            DistanceResponseDTO distanceResults = distanceService.getDistanceFromSource( currentLocation, destinations);
 
             if(distanceResults != null) {
-                Log.d("SuggestionService", "Result es: " + distanceResults.toString());
-                RouteInfoService.getInstance().saveSuggestedRoutesInfo(filterByArrivalTime(routesInfo, distanceResults));
-                Intent suggestionIntent = new Intent(getBaseContext(), TrackingSuggestionActivity.class);
-                getApplication().startActivity(suggestionIntent);
+                Log.d("SuggestionService", "GMatrix Result: " + distanceResults.toString());
+                List<RouteInfo> finalSuggestions = filterByArrivalTime(routesInfo, distanceResults);
+                if(finalSuggestions.size() > 0) {
+                    RouteInfoService.getInstance().saveSuggestedRoutesInfo(finalSuggestions);
+                    Intent suggestionIntent = new Intent(getBaseContext(), TrackingSuggestionActivity.class);
+                    getApplication().startActivity(suggestionIntent);
+                } else {
+                    Log.d("SuggestionService", "No Matching suggestion for time");
+                }
             }
         }
 
@@ -80,7 +90,6 @@ public class SuggestionService extends IntentService {
             cal.set(Calendar.SECOND, secondsAmount);
 
             if(cal.getTime().before(routeInfo.getEndDateValue())) {
-                Log.d("SuggestionService", "Aceptado-Meet: " + cal.getTime().toString() + " endDate: " + routeInfo.getEndDateValue().toString());
                 response.add(fillRouteInfoMissingInfo(routeInfo, destinationDistance));
             }
         }

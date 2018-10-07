@@ -82,10 +82,11 @@ public class TrackingSuggestionActivity extends AppCompatActivity implements ITr
         routeInfo = RouteInfoService.getInstance().getSuggestedRoutesInfo();
         displayRouteInfoData();
     }
-    
+
 
     @Override
     public RouteInfo getDataForTrackingCreation() {
+        routeInfo.setMeetingName("Meeting " + routeInfo.getTrackableName());
         return routeInfo;
     }
 }

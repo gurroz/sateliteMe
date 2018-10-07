@@ -35,7 +35,6 @@ public class TrackingCreateActivity extends TrackingDetailActivity implements IT
 
         this.startView.setText(startDate);
         this.endView.setText(endDate);
-        this.locationView.setText(actualLocation);
 
         saveTrackingBtn.setOnClickListener(new TrackingSaveController(this, null));
     }

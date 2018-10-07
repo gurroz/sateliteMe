@@ -11,6 +11,7 @@
     <string name="dialog_filter_trackables">Filter by category</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+
     <string name="tracking_trackable_title">Meeting %1$s</string>
     <string name="tracking_title">Title</string>
     <string name="tracking_actual_location">Actual Location</string>

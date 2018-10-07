@@ -20,8 +20,10 @@ import rmit.mad.project.R;
 import rmit.mad.project.adapter.TrackableAdapter;
 import rmit.mad.project.controller.TrackableFilterDialogController;
 import rmit.mad.project.model.Trackable;
-import rmit.mad.project.service.SuggestionService;
+import rmit.mad.project.service.LocationService;
 import rmit.mad.project.service.TrackableService;
+
+import static rmit.mad.project.service.LocationService.LOCATION_NOW;
 
 public class TrackableListActivity extends Fragment implements Observer, ICategoryFilterListener {
 
@@ -51,7 +53,8 @@ public class TrackableListActivity extends Fragment implements Observer, ICatego
         suggestionBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), SuggestionService.class);
+                Intent intent = new Intent(getContext(), LocationService.class);
+                intent.putExtra(LOCATION_NOW, true);
                 getContext().startService(intent);
             }
         });

@@ -19,8 +19,9 @@ public class AlarmService {
     private static final String TAG = AlarmService.class.getName();
 
     public static void setAlarmSuggestions(Context context) {
-        Intent suggestionIntent = new Intent(context, SuggestionService.class);
-        PendingIntent pendingIntent = PendingIntent.getService(context, SuggestionService.SUGGESTION_REQ_CODE, suggestionIntent,  FLAG_CANCEL_CURRENT);
+
+        Intent locationIntent = new Intent(context, LocationService.class);
+        PendingIntent pendingIntent = PendingIntent.getService(context, NOTIFICATION_REQ_CODE, locationIntent,  FLAG_CANCEL_CURRENT);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -39,10 +40,8 @@ public class AlarmService {
         Intent suggestionIntent = new Intent(context, NotificationService.class);
         PendingIntent pendingIntent = PendingIntent.getService(context, NOTIFICATION_REQ_CODE, suggestionIntent,  FLAG_CANCEL_CURRENT);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-        long period = 30 * 1000; // HarCoded, checks every 10 seconds
-        long triggeringTime = Calendar.getInstance().getTimeInMillis() + period;
+        long period = 60 * 1000; // HarCoded, checks every 60 seconds
+        long triggeringTime = Calendar.getInstance().getTimeInMillis();
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
 

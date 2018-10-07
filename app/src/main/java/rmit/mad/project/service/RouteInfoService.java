@@ -5,7 +5,6 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Observable;
 
@@ -30,11 +29,8 @@ public class RouteInfoService extends Observable {
 
         List<TrackingService.TrackingInfo> routesInfo = TrackingService.getSingletonInstance(context).getTrackingInfoForTimeRange(actualDate, searchWindow, 0 );
         List<RouteInfo> routesInfoFiltered = new ArrayList<>();
-        Log.d("TAG", "Assquing "+ trackableId + "for date: " + actualDate.toString());
         int amount = 0;
         for(TrackingService.TrackingInfo routeInfo : routesInfo) {
-            Log.d("TAG", "REspond Tracking info: " + routeInfo.toString());
-
             if(Integer.valueOf(trackableId) == routeInfo.trackableId) {
                 routesInfoFiltered.add(new RouteInfo(routeInfo.trackableId, routeInfo.date, routeInfo.stopTime, routeInfo.latitude, routeInfo.longitude));
                 amount++;
@@ -53,15 +49,11 @@ public class RouteInfoService extends Observable {
         int searchWindow = 1440;
 
         List<TrackingService.TrackingInfo> routesInfo = TrackingService.getSingletonInstance(context).getTrackingInfoForTimeRange(actualDate, searchWindow, 0 );
-        Log.d("TAG", "TrackingInfo: " + routesInfo.size());
-
 
         List<RouteInfo> routesInfoFiltered = new ArrayList<>();
         int amount = 0;
 
         for(TrackingService.TrackingInfo routeInfo : routesInfo) {
-            Log.d("TAG", "REspond Tracking Stopping info: " + routeInfo.toString());
-
             if(routeInfo.stopTime > 0) {
                 routesInfoFiltered.add(new RouteInfo(routeInfo.trackableId, routeInfo.date, routeInfo.stopTime, routeInfo.latitude, routeInfo.longitude));
                 amount++;
@@ -78,12 +70,8 @@ public class RouteInfoService extends Observable {
 
     public RouteInfo getSuggestedRoutesInfo() {
         RouteInfoDAO.getInstance().toString();
-        RouteInfo response = null;
-        try {
-            response =  RouteInfoDAO.getInstance().get();
-        } catch (EmptyStackException e) {
+        RouteInfo response =  RouteInfoDAO.getInstance().get();
 
-        }
         return response;
     }
 
