@@ -1,20 +1,24 @@
 package rmit.mad.project.model;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import rmit.mad.project.model.Database.DatabaseHelper;
+
 public abstract class LocalStorage<E> implements ILocalStorage<E> {
 
     protected Map<String, E> collectionMap = new HashMap<String, E>();
+    //DatabaseHelper dbh = DatabaseHelper.getSingletonInstance() context needed
 
     @Override
-    public List<E> getAll() {
+    public List<E> getAll() { //DatabaseHelper parameter needs to be added
         if(collectionMap.isEmpty()) {
-            List<E> data = this.getFromDatabase();
+            List<E> data = this.getFromDatabase(dbh);
             for(E obj: data) {
-                collectionMap.put(getIdFromObject(obj), obj);
+                collectionMap.put(getIdFromObject(dbh, obj), obj);
             }
             return data;
         } else {
@@ -37,9 +41,15 @@ public abstract class LocalStorage<E> implements ILocalStorage<E> {
         collectionMap.remove(id);
     }
 
-    public abstract void persistDatabase();
-    public abstract List<E> getFromDatabase();
-    public abstract List<E> sevaToDatabase(String id, E e);
-    public abstract String getIdFromObject(Object e);
+//    public abstract void persistDatabase();
+//    public abstract List<E> getFromDatabase();
+//    public abstract List<E> saveToDatabase(String id, E e);
+//    public abstract String getIdFromObject(Object e);
+
+    //public abstract void persistDatabase (DatabaseHelper dbh, InputStream textFile);
+    public abstract List<E> getFromDatabase (DatabaseHelper dbh);
+    public abstract void addToDatabase (DatabaseHelper dbh, String id, E e);
+    public abstract String getIdFromObject(DatabaseHelper dbh, E e);
+    //public abstract boolean deleteTrackingFromBD (DatabaseHelper dbh, String trackingID);
 
 }

@@ -1,5 +1,7 @@
 package rmit.mad.project.service;
 
+import android.app.Application;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,11 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+import rmit.mad.project.model.Database.DatabaseHelper;
 import rmit.mad.project.model.FoodTruck;
 import rmit.mad.project.model.Trackable;
 import rmit.mad.project.model.TrackableDAO;
 
 public class TrackableService extends Observable {
+
+    private DatabaseHelper db;
 
     private static class LazyHolder {
         static final TrackableService instance = new TrackableService();
@@ -41,7 +46,7 @@ public class TrackableService extends Observable {
                 truk.setDescription(properties[2].replaceAll("\"", ""));
                 truk.setUrl(properties[3].replaceAll("\"", ""));
                 truk.setCategory(properties[4].replaceAll("\"", ""));
-
+                //TrackableDAO.getInstance().addToDatabase(dbh, truk.getId(), truk); //DatabaseHelper needed
 
 //                TrackableDAO.getInstance().sevaToDatabase(String.valueOf(truk.getId()), truk);
                 TrackableDAO.getInstance().save(String.valueOf(truk.getId()), truk);

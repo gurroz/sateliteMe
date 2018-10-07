@@ -17,12 +17,14 @@ import java.io.InputStream;
 
 import rmit.mad.project.R;
 import rmit.mad.project.service.AlarmService;
+import rmit.mad.project.model.Database.DatabaseHelper;
 import rmit.mad.project.service.TrackableService;
 
 public class HomeActivity extends AppCompatActivity {
 
     private static final String TAG = HomeActivity.class.getName();
     private FragmentTabHost tabHost;
+    private DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public class HomeActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
 
+        db = DatabaseHelper.getSingletonInstance(this);
         tabHost = findViewById(android.R.id.tabhost);
         tabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
 
@@ -63,6 +66,8 @@ public class HomeActivity extends AppCompatActivity {
 
         try {
             TrackableService.getInstance().initTrackables(stream);
+
+
         } catch (IOException e) {
             Log.e(TAG, "Error reading food truck files: {}", e);
         }
