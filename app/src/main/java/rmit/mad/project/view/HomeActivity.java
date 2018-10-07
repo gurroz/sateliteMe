@@ -1,5 +1,6 @@
 package rmit.mad.project.view;
 
+import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
@@ -25,6 +26,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private static final String TAG = HomeActivity.class.getName();
     private FragmentTabHost tabHost;
+    private BroadcastReceiver networkBroadcastReceiver;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,20 +53,25 @@ public class HomeActivity extends AppCompatActivity {
 
         tabHost.addTab(tab, TrackingListActivity.class,null);
 
-        initPreferences();
+        initAlarms();
         initData();
         initReceivers();
     }
 
     private void initReceivers() {
+        Log.d(TAG, "Starting Receivers");
         final IntentFilter networkIntent = new IntentFilter();
         networkIntent.addAction(android.net.ConnectivityManager.CONNECTIVITY_ACTION);
 
-        registerReceiver(new NetworkChangeDetector(), networkIntent);
+        networkBroadcastReceiver = new NetworkChangeDetector();
+        registerReceiver(networkBroadcastReceiver, networkIntent);
     }
 
-    private void initPreferences() {
+    private void initAlarms() {
+        Log.d(TAG, "Starting Alarms");
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        AlarmService.setAlarmSuggestions(this);
+        AlarmService.setMeetingNotification(this);
     }
 
     /**
@@ -78,10 +86,13 @@ public class HomeActivity extends AppCompatActivity {
         } catch (IOException e) {
             Log.e(TAG, "Error reading food truck files: {}", e);
         }
+    }
 
 
-        AlarmService.setAlarmSuggestions(this);
-        AlarmService.setMeetingNotification(this);
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(networkBroadcastReceiver);
+        super.onDestroy();
     }
 
     @Override

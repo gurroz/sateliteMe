@@ -92,7 +92,7 @@ public abstract class Tracking {
 
 
     public boolean validateDates() {
-        return !(meetTime.before(targetStartTime) || meetTime.after(targetFinishTime));
+        return !(meetTime.after(targetFinishTime));
     }
 
     @Override

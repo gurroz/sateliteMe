@@ -35,19 +35,18 @@ public class AlarmService {
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, triggeringTime, period, pendingIntent);
     }
 
-    // TODO: Call to show notification
     public static void setMeetingNotification(Context context) {
-//        Intent suggestionIntent = new Intent(context, SuggestionService.class);
-//        PendingIntent pendingIntent = PendingIntent.getService(context, NOTIFICATION_REQ_CODE, suggestionIntent,  FLAG_CANCEL_CURRENT);
-//
-//        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-//
-//        long period = Long.valueOf(prefs.getString("settings_notification", "0")) * 1000;
-//        long triggeringTime = Calendar.getInstance().getTimeInMillis() + period;
-//
-//        AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
-//
-//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, triggeringTime, period, pendingIntent);
+        Intent suggestionIntent = new Intent(context, NotificationService.class);
+        PendingIntent pendingIntent = PendingIntent.getService(context, NOTIFICATION_REQ_CODE, suggestionIntent,  FLAG_CANCEL_CURRENT);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        long period = 30 * 1000; // HarCoded, checks every 10 seconds
+        long triggeringTime = Calendar.getInstance().getTimeInMillis() + period;
+
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, triggeringTime, period, pendingIntent);
     }
 }
 

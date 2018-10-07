@@ -7,17 +7,20 @@ import rmit.mad.project.model.RouteInfo;
 
 import static rmit.mad.project.enums.IntentModelEnum.ROUTE_INFO;
 
-public class TrackingCreateActivity extends TrackingDetailActivity {
+public class TrackingCreateActivity extends TrackingDetailActivity implements ITrackingSaver{
 
     private String startDate;
     private String endDate;
     private String actualLocation;
+    private RouteInfo routeInfo;
+
 
     public TrackingCreateActivity() { }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        routeInfo = intent.getParcelableExtra(ROUTE_INFO.name());
     }
 
 
@@ -26,8 +29,6 @@ public class TrackingCreateActivity extends TrackingDetailActivity {
      * This case is when no Tracking is persisted, so the parcial data comes from the selected RouteInfo
      */
     protected void displayTrackingData() {
-        RouteInfo routeInfo = intent.getParcelableExtra(ROUTE_INFO.name());
-
         startDate = routeInfo.getStartDate();
         endDate = routeInfo.getEndDate();
         actualLocation = routeInfo.getLocation();
@@ -36,9 +37,18 @@ public class TrackingCreateActivity extends TrackingDetailActivity {
         this.endView.setText(endDate);
         this.locationView.setText(actualLocation);
 
-        saveTrackingBtn.setOnClickListener(new TrackingSaveController(null, trackable.getId(), titleView.getText().toString(),
-                startView.getText().toString(), endView.getText().toString(), meetingLocationView.getText().toString(),
-                meetingTimeView.getText().toString(), locationView.getText().toString()));
+        saveTrackingBtn.setOnClickListener(new TrackingSaveController(this, null));
     }
 
+    @Override
+    public RouteInfo getDataForTrackingCreation() {
+        routeInfo.setTrackableId( trackable.getId());
+        routeInfo.setMeetingName(titleView.getText().toString());
+        routeInfo.setStartDate(startView.getText().toString());
+        routeInfo.setEndDate(endView.getText().toString());
+        routeInfo.setLocation(meetingLocationView.getText().toString());
+        routeInfo.setMeetingTime(meetingTimeView.getText().toString());
+
+        return routeInfo;
+    }
 }

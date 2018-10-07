@@ -49,6 +49,9 @@
         <service
             android:name=".service.SuggestionService"
             android:enabled="true"/>
+        <service
+            android:name=".service.NotificationService"
+            android:enabled="true"/>
     </application>
 
 </manifest>

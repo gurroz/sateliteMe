@@ -43,7 +43,6 @@ public class TrackableService extends Observable {
                 truk.setCategory(properties[4].replaceAll("\"", ""));
 
 
-//                TrackableDAO.getInstance().sevaToDatabase(String.valueOf(truk.getId()), truk);
                 TrackableDAO.getInstance().save(String.valueOf(truk.getId()), truk);
 
                 trackables.add(truk);

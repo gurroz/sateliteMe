@@ -30,6 +30,7 @@ import static rmit.mad.project.enums.IntentModelEnum.TRACKABLE_ID;
 
 public class TrackableDetailActivity extends AppCompatActivity {
 
+    private static final int REQUEST_CODE = 100;
     private TextView nameView;
     private TextView urlView;
     private TextView categoryView;
@@ -119,7 +120,7 @@ public class TrackableDetailActivity extends AppCompatActivity {
     private void checkMapPermission() {
         if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE);
         } else {
             showMap();
         }
@@ -128,7 +129,7 @@ public class TrackableDetailActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case 1: {
+            case REQUEST_CODE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     showMap();
                 }

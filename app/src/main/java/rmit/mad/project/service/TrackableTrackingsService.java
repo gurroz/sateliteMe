@@ -4,9 +4,7 @@ import android.util.Log;
 
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 import java.util.Observable;
 
 import rmit.mad.project.model.Meeting;
@@ -75,17 +73,14 @@ public class TrackableTrackingsService extends Observable {
     }
 
     private boolean checkSaveTracking(Tracking tracking) {
-        TrackingDAO.getInstance().save(tracking.getId(), tracking);
-        return true;
-        //TODO: UNcoment for demo
-//        boolean resp = false;
-//        if(tracking.validateDates()) {
-//            TrackingDAO.getInstance().save(tracking.getId(), tracking);
-//            resp = true;
-//        }
-//
-//        notifyChangesInList();
-//
-//        return resp;
+        boolean resp = false;
+        if(tracking.validateDates()) {
+            TrackingDAO.getInstance().save(tracking.getId(), tracking);
+            resp = true;
+        }
+
+        notifyChangesInList();
+
+        return resp;
     }
 }

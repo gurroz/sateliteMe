@@ -37,18 +37,24 @@ public class SuggestionService extends IntentService {
         DistanceCalculationService distanceService = new DistanceCalculationService();
 
         List<RouteInfo> routesInfo = RouteInfoService.getInstance().getTrackableRouteInfoFromNowStopping(this, 100);
-        List<String> destinations = new ArrayList();
-        for(RouteInfo routeInfo : routesInfo) {
-            destinations.add(routeInfo.getLocation());
-        }
+        if(routesInfo.size() > 0) {
+            Log.d("RouteInfoSaving", "Meetings time:" + routesInfo.size());
 
-        DistanceResponseDTO distanceResults = distanceService.getDistanceFromSource( "-37.807425,144.963814", destinations);
+            List<String> destinations = new ArrayList();
+            for(RouteInfo routeInfo : routesInfo) {
+                Log.d("RouteInfoSaving", "Meetings time:" + routeInfo.toString());
+                destinations.add(routeInfo.getLocation());
+            }
 
-        if(distanceResults != null) {
-            Log.d("SuggestionService", "Result es: " + distanceResults.toString());
-            RouteInfoService.getInstance().saveSuggestedRoutesInfo(filterByArrivalTime(routesInfo, distanceResults));
-            Intent suggestionIntent = new Intent(getBaseContext(), TrackingSuggestionActivity.class);
-            getApplication().startActivity(suggestionIntent);
+            //TODO: Add actual position
+            DistanceResponseDTO distanceResults = distanceService.getDistanceFromSource( "-37.807425,144.963814", destinations);
+
+            if(distanceResults != null) {
+                Log.d("SuggestionService", "Result es: " + distanceResults.toString());
+                RouteInfoService.getInstance().saveSuggestedRoutesInfo(filterByArrivalTime(routesInfo, distanceResults));
+                Intent suggestionIntent = new Intent(getBaseContext(), TrackingSuggestionActivity.class);
+                getApplication().startActivity(suggestionIntent);
+            }
         }
 
 
@@ -70,25 +76,22 @@ public class SuggestionService extends IntentService {
             DistanceResponseDTO.DestinationDistanceDTO destinationDistance = destinations.get(i); // Asumes same amount of destinations as passed
 
             Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.SECOND, cal.get(Calendar.MINUTE) + destinationDistance.getSecondsDistance());
+            int secondsAmount =  cal.get(Calendar.SECOND) + destinationDistance.getSecondsDistance();
+            cal.set(Calendar.SECOND, secondsAmount);
 
-            // TODO: This has to be added when testing when real data
-//            if(cal.getTime().before(routeInfo.getEndDateValue())) {
-//                response.add(fillRouteInfohMissingInfo(routeInfo, destinationDistance));
-//            }
-
-            response.add(fillRouteInfohMissingInfo(routeInfo, destinationDistance));
-
+            if(cal.getTime().before(routeInfo.getEndDateValue())) {
+                Log.d("SuggestionService", "Aceptado-Meet: " + cal.getTime().toString() + " endDate: " + routeInfo.getEndDateValue().toString());
+                response.add(fillRouteInfoMissingInfo(routeInfo, destinationDistance));
+            }
         }
 
         return response;
     }
 
-    private RouteInfo fillRouteInfohMissingInfo(RouteInfo routeInfo, DistanceResponseDTO.DestinationDistanceDTO destination) {
+    private RouteInfo fillRouteInfoMissingInfo(RouteInfo routeInfo, DistanceResponseDTO.DestinationDistanceDTO destination) {
         Calendar cal = Calendar.getInstance();
 
-        cal.set(Calendar.SECOND, cal.get(Calendar.MINUTE) + destination.getSecondsDistance());
-
+        cal.set(Calendar.SECOND, cal.get(Calendar.SECOND) + destination.getSecondsDistance());
         Trackable trackable = TrackableService.getInstance().getById(routeInfo.getTrackableId());
 
         routeInfo.fillMissingInfo(cal.getTime(), destination.getDestination(), trackable.getName(),
