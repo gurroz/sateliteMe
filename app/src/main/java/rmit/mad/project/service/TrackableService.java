@@ -1,6 +1,7 @@
 package rmit.mad.project.service;
 
-import android.app.Application;
+import android.content.Context;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,14 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-import rmit.mad.project.model.Database.DatabaseHelper;
+import rmit.mad.project.model.DatabaseHandler;
 import rmit.mad.project.model.FoodTruck;
 import rmit.mad.project.model.Trackable;
 import rmit.mad.project.model.TrackableDAO;
 
 public class TrackableService extends Observable {
-
-    private DatabaseHelper db;
 
     private static class LazyHolder {
         static final TrackableService instance = new TrackableService();
@@ -30,9 +29,14 @@ public class TrackableService extends Observable {
         return LazyHolder.instance;
     }
 
-    public void initTrackables(InputStream textFile) throws IOException {
-        // Check if database is full if not, create
-        if(!TrackableDAO.getInstance().isDBInitiated()) {
+    public void initTrackables(InputStream textFile, Context context) throws IOException {
+        TrackableDAO trackableDAO = TrackableDAO.getInstance();
+        init(context);
+
+        // Check if database has trackables
+        if(!trackableDAO.isTrackableInitiated()) {
+            Log.i("TrackableService", "Reading Trackables from file");
+
             List<Trackable> trackables = new ArrayList<>();
             BufferedReader reader = new BufferedReader(new InputStreamReader(textFile));
             String line = reader.readLine();
@@ -46,25 +50,25 @@ public class TrackableService extends Observable {
                 truk.setDescription(properties[2].replaceAll("\"", ""));
                 truk.setUrl(properties[3].replaceAll("\"", ""));
                 truk.setCategory(properties[4].replaceAll("\"", ""));
-                //TrackableDAO.getInstance().addToDatabase(dbh, truk.getId(), truk); //DatabaseHelper needed
 
-//                TrackableDAO.getInstance().sevaToDatabase(String.valueOf(truk.getId()), truk);
-                TrackableDAO.getInstance().save(String.valueOf(truk.getId()), truk);
+                trackableDAO.save(String.valueOf(truk.getId()), truk);
 
                 trackables.add(truk);
                 line = reader.readLine();
             }
+            TrackableDAO.getInstance().persistToDB();
+        } else {
+            Log.i("TrackableService", "Reading Trackables from memory");
         }
+    }
 
+    public void init(Context context) {
+        TrackableDAO.getInstance().setDatabaseHandler(DatabaseHandler.getInstance(context));
     }
 
     public void getTrackables() {
         setChanged();
         notifyObservers(TrackableDAO.getInstance().getAll());
-    }
-
-    public List<Trackable> getTrackablesList() {
-        return TrackableDAO.getInstance().getAll();
     }
 
     public void getTrackablesFilteredByCategory(List<String> categories) {

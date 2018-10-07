@@ -7,6 +7,12 @@
         android:inputType="number"/>
 
     <EditTextPreference
+        android:key="settings_snooze"
+        android:title="@string/settings_notification_snooze_title"
+        android:defaultValue="@string/settings_notification_snooze_value"
+        android:inputType="number"/>
+
+    <EditTextPreference
         android:key="settings_suggestion"
         android:title="@string/settings_suggestion_title"
         android:defaultValue="@string/settings_suggestion_value"

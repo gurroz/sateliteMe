@@ -58,8 +58,14 @@ public class TrackingListActivity extends Fragment implements Observer {
     }
 
     @Override
+    public void onStop() {
+        trackableTrackingsService.saveState();
+        super.onStop();
+    }
+
+    @Override
     public void onDestroy() {
-        super.onDestroy();
         trackableTrackingsService.deleteObserver(this);
+        super.onDestroy();
     }
 }

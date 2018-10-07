@@ -13,7 +13,7 @@ import rmit.mad.project.model.RouteInfo;
 import rmit.mad.project.service.RouteInfoService;
 
 
-public class TrackingSuggestionActivity extends AppCompatActivity {
+public class TrackingSuggestionActivity extends AppCompatActivity implements ITrackingSaver {
 
     private Button acceptSuggestionBtn;
     private Button nextSuggestionBtn;
@@ -51,22 +51,21 @@ public class TrackingSuggestionActivity extends AppCompatActivity {
         nextSuggestionBtn.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayRouteInfoData();
+                displayNextRouteInfoData();
             }
         });
 
-        displayRouteInfoData();
+        routeInfo = RouteInfoService.getInstance().getSuggestedRoutesInfo();
 
-        acceptSuggestionBtn.setOnClickListener(
-                new TrackingSaveController(null, routeInfo.getTrackableId(),
-                        "Meeting " + routeInfo.getTrackableName(),
-                        routeInfo.getStartDate(), routeInfo.getEndDate(),
-                        routeInfo.getLocationName(), routeInfo.getMeetingTime(), ""));
+        if(routeInfo != null) {
+            acceptSuggestionBtn.setOnClickListener(new TrackingSaveController(this,null));
+        }
+
+        displayRouteInfoData();
 
     }
 
     private void displayRouteInfoData() {
-        routeInfo = RouteInfoService.getInstance().getSuggestedRoutesInfo();
         if(routeInfo != null) {
             Log.d("Suggestion", "Showin sug: " + routeInfo.toString());
             trackableNameView.setText(routeInfo.getTrackableName());
@@ -79,4 +78,15 @@ public class TrackingSuggestionActivity extends AppCompatActivity {
         }
     }
 
+    private void displayNextRouteInfoData() {
+        routeInfo = RouteInfoService.getInstance().getSuggestedRoutesInfo();
+        displayRouteInfoData();
+    }
+
+
+    @Override
+    public RouteInfo getDataForTrackingCreation() {
+        routeInfo.setMeetingName("Meeting " + routeInfo.getTrackableName());
+        return routeInfo;
+    }
 }

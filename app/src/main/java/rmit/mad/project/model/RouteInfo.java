@@ -11,6 +11,7 @@ public class RouteInfo implements Parcelable {
 
     private String trackableId;
     private String trackableName;
+    private String meetingName;
     private String trackableType;
     private String startDate;
     private String endDate;
@@ -20,6 +21,8 @@ public class RouteInfo implements Parcelable {
     private String locationName;
     private String meetingTime;
     private String distanceTime;
+
+    public RouteInfo() { }
 
     public RouteInfo(int trackableId, Date startingDate, int timeStopped, double lat, double lng) {
         this.trackableId = String.valueOf(trackableId);
@@ -140,6 +143,14 @@ public class RouteInfo implements Parcelable {
 
     public void setDistanceTime(String distanceTime) {
         this.distanceTime = distanceTime;
+    }
+
+    public String getMeetingName() {
+        return meetingName;
+    }
+
+    public void setMeetingName(String meetingName) {
+        this.meetingName = meetingName;
     }
 
     @Override

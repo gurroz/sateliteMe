@@ -2,8 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="rmit.mad.project">
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -30,6 +31,9 @@
             android:label="@string/tracking_create_activity_title" />
         <activity
             android:name=".view.TrackingEditActivity"
+            android:taskAffinity=""
+            android:parentActivityName=".view.HomeActivity"
+            android:launchMode="singleTop"
             android:label="@string/tracking_edit_activity_title" />
 
         <meta-data
@@ -48,6 +52,19 @@
         <service
             android:name=".service.SuggestionService"
             android:enabled="true"/>
+        <service
+            android:name=".service.NotificationService"
+            android:enabled="true"/>
+        <service
+            android:name=".service.LocationService"
+            android:enabled="true"/>
+
+        <receiver android:name=".receiver.LocationChangeDetector" >
+        </receiver>
+        <receiver android:name=".receiver.CancelNotificationDetector" >
+        </receiver>
+        <receiver android:name=".receiver.SnoozeNotificationDetector" >
+        </receiver>
     </application>
 
 </manifest>

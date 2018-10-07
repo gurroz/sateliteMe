@@ -1,14 +1,14 @@
 package rmit.mad.project.service;
 
+import android.content.Context;
 import android.util.Log;
 
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 import java.util.Observable;
 
+import rmit.mad.project.model.DatabaseHandler;
 import rmit.mad.project.model.Meeting;
 import rmit.mad.project.model.Tracking;
 import rmit.mad.project.model.TrackingDAO;
@@ -28,6 +28,10 @@ public class TrackableTrackingsService extends Observable {
         return LazyHolder.instance;
     }
 
+    public void init(Context context) {
+        TrackingDAO.getInstance().setDatabaseHandler(DatabaseHandler.getInstance(context));
+    }
+
     public void getAllSortedByDate() {
         notifyChangesInList();
     }
@@ -39,6 +43,14 @@ public class TrackableTrackingsService extends Observable {
     public void deleteTrackingById(String trackingId) {
         TrackingDAO.getInstance().delete(trackingId);
         notifyChangesInList();
+    }
+
+    public List<Tracking> obtainAllSortedByDate() {
+        return TrackingDAO.getInstance().getAllSortedByDate();
+    }
+
+    public void saveState() {
+        TrackingDAO.getInstance().persistToDB();
     }
 
     public boolean saveTracking(String idTracking, String trackableId, String startDate, String endDate,
@@ -70,22 +82,15 @@ public class TrackableTrackingsService extends Observable {
         notifyObservers(obtainAllSortedByDate());
     }
 
-    private List<Tracking> obtainAllSortedByDate() {
-        return TrackingDAO.getInstance().getAllSortedByDate();
-    }
-
     private boolean checkSaveTracking(Tracking tracking) {
-        TrackingDAO.getInstance().save(tracking.getId(), tracking);
-        return true;
-        //TODO: UNcoment for demo
-//        boolean resp = false;
-//        if(tracking.validateDates()) {
-//            TrackingDAO.getInstance().save(tracking.getId(), tracking);
-//            resp = true;
-//        }
-//
-//        notifyChangesInList();
-//
-//        return resp;
+        boolean resp = false;
+        if(tracking.validateDates()) {
+            TrackingDAO.getInstance().save(tracking.getId(), tracking);
+            resp = true;
+        }
+
+        notifyChangesInList();
+
+        return resp;
     }
 }
